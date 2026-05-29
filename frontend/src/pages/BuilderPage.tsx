@@ -35,18 +35,24 @@ export default function BuilderPage() {
     }
   }
 
+  const buildPrompt = (prompt: string, codeSnippet?: string) =>
+    codeSnippet?.trim()
+      ? `${prompt}\n\`\`\`\n${codeSnippet.trim()}\n\`\`\``
+      : prompt
+
   const handleAddQuestion = async (values: QuestionFormValues) => {
+    const prompt = buildPrompt(values.prompt, values.codeSnippet)
     if (values.type === 'mcq') {
       await addQuestion.mutateAsync({
         type: 'mcq',
-        prompt: values.prompt,
+        prompt,
         options: values.options.map((o) => o.value),
         correctAnswer: values.correctAnswerIndex!,
       })
     } else {
       await addQuestion.mutateAsync({
         type: 'short',
-        prompt: values.prompt,
+        prompt,
         correctAnswer: values.correctAnswerText!,
       })
     }

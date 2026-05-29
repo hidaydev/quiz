@@ -7,10 +7,23 @@ interface Props {
   onChange: (value: string) => void
 }
 
+function parsePrompt(prompt: string): { text: string; code: string | null } {
+  const match = prompt.match(/^([\s\S]*?)```(?:\w+)?\n([\s\S]*?)```([\s\S]*)$/)
+  if (!match) return { text: prompt, code: null }
+  return { text: (match[1] + match[3]).trim(), code: match[2].trim() }
+}
+
 export default function QuestionCard({ question, value, onChange }: Props) {
+  const { text, code } = parsePrompt(question.prompt)
+
   return (
     <div className="space-y-4">
-      <p className="font-medium text-lg">{question.prompt}</p>
+      {text && <p className="font-medium text-lg">{text}</p>}
+      {code && (
+        <pre className="bg-gray-900 text-gray-100 rounded p-4 text-sm overflow-x-auto">
+          <code>{code}</code>
+        </pre>
+      )}
 
       {question.type === 'mcq' && question.options && (
         <div className="space-y-2">
