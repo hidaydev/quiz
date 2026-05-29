@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS questions (
   quiz_id INTEGER NOT NULL,
   type TEXT NOT NULL CHECK (type IN ('mcq','short','code')),
   prompt TEXT NOT NULL,
+  code_snippet TEXT,
   options_json TEXT, -- JSON array for MCQ options
   correct_answer TEXT, -- For MCQ: index (number) or option text; For short: canonical answer; For code: null
   position INTEGER NOT NULL DEFAULT 0,

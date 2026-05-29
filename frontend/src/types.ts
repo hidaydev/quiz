@@ -16,6 +16,7 @@ export interface Question {
   quizId: number
   type: QuestionType
   prompt: string
+  codeSnippet?: string
   options?: string[]
   correctAnswer?: string | number
   position: number

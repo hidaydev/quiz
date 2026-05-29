@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useQuizzes } from '../queries/quizzes'
+import { useQuizzes } from '../queries'
 
 export default function HomePage() {
   const { data: quizzes, isLoading, error } = useQuizzes()

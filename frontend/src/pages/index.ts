@@ -1,0 +1,5 @@
+export { default as HomePage } from './HomePage'
+export { default as BuilderPage } from './BuilderPage'
+export { default as PlayerPage } from './PlayerPage'
+export { default as ResultsPage } from './ResultsPage'
+export { default as NotFoundPage } from './NotFoundPage'

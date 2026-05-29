@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import HomePage from './pages/HomePage'
-import BuilderPage from './pages/BuilderPage'
-import PlayerPage from './pages/PlayerPage'
-import ResultsPage from './pages/ResultsPage'
-import NotFoundPage from './pages/NotFoundPage'
+import {
+  HomePage,
+  BuilderPage,
+  PlayerPage,
+  ResultsPage,
+  NotFoundPage,
+} from './pages'
 
 export default function App() {
   return (

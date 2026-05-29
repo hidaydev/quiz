@@ -8,6 +8,7 @@ export const addQuestion = async (
   payload: {
     type: QuestionType
     prompt: string
+    codeSnippet?: string
     options?: string[]
     correctAnswer: string | number
     position?: number
@@ -22,6 +23,7 @@ export const updateQuestion = async (
   payload: Partial<{
     position: number
     prompt: string
+    codeSnippet: string
     options: string[]
     correctAnswer: string | number
   }>,

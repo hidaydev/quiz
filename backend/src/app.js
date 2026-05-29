@@ -68,6 +68,7 @@ function createApp() {
 			quizId: row.quiz_id,
 			type: row.type,
 			prompt: row.prompt,
+			codeSnippet: row.code_snippet ?? undefined,
 			options,
 			correctAnswer,
 			position: row.position,
@@ -170,7 +171,7 @@ function createApp() {
 			const quiz = db.prepare(`SELECT * FROM quizzes WHERE id=?`).get(quizId);
 			if (!quiz) return res.status(404).json({ error: "Quiz not found" });
 
-			const { type, prompt, options, correctAnswer, position } = req.body || {};
+			const { type, prompt, codeSnippet, options, correctAnswer, position } = req.body || {};
 			if (!type || !prompt)
 				return res.status(400).json({ error: "type and prompt are required" });
 			if (!["mcq", "short", "code"].includes(type))
@@ -219,12 +220,13 @@ function createApp() {
 					: maxPos + 1;
 
 			const stmt =
-				db.prepare(`INSERT INTO questions (quiz_id, type, prompt, options_json, correct_answer, position, created_at)
-        VALUES (?,?,?,?,?,?,?)`);
+				db.prepare(`INSERT INTO questions (quiz_id, type, prompt, code_snippet, options_json, correct_answer, position, created_at)
+        VALUES (?,?,?,?,?,?,?,?)`);
 			const info = stmt.run(
 				quizId,
 				type,
 				prompt,
+				codeSnippet ?? null,
 				optionsJson,
 				finalCorrectAnswer ?? null,
 				pos,
@@ -247,7 +249,7 @@ function createApp() {
 			const row0 = db.prepare(`SELECT * FROM questions WHERE id=?`).get(id);
 			if (!row0) return res.status(404).json({ error: "Question not found" });
 
-			const { type, prompt, options, correctAnswer, position } = req.body || {};
+			const { type, prompt, codeSnippet, options, correctAnswer, position } = req.body || {};
 
 			if (type && !["mcq", "short", "code"].includes(type))
 				return res.status(400).json({ error: "invalid type" });
@@ -263,6 +265,7 @@ function createApp() {
 			const stmt = db.prepare(`UPDATE questions
         SET type=COALESCE(?, type),
             prompt=COALESCE(?, prompt),
+            code_snippet=COALESCE(?, code_snippet),
             options_json=?,
             correct_answer=COALESCE(?, correct_answer),
             position=COALESCE(?, position)
@@ -270,6 +273,7 @@ function createApp() {
 			stmt.run(
 				type ?? null,
 				prompt ?? null,
+				codeSnippet ?? null,
 				optionsJson,
 				correctAnswer === undefined ? null : correctAnswer,
 				position === undefined ? null : Number(position),

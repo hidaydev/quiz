@@ -11,10 +11,9 @@ function main() {
   const info = insertQuiz.run('JavaScript Basics', 'A tiny quiz on core JS', 300, 1);
   const quizId = info.lastInsertRowid;
 
-  // Insert questions with positions
   const insertQ = db.prepare(`
-    INSERT INTO questions (quiz_id, type, prompt, options_json, correct_answer, position)
-    VALUES (?,?,?,?,?,?)
+    INSERT INTO questions (quiz_id, type, prompt, code_snippet, options_json, correct_answer, position)
+    VALUES (?,?,?,?,?,?,?)
   `);
 
   // MCQ
@@ -22,8 +21,9 @@ function main() {
     quizId,
     'mcq',
     'Which of the following is NOT a primitive type in JavaScript?',
+    null,
     JSON.stringify(['string', 'number', 'boolean', 'array']),
-    '3', // index of 'array'
+    '3',
     0
   );
 
@@ -33,17 +33,19 @@ function main() {
     'short',
     'What keyword declares a block-scoped variable introduced in ES6?',
     null,
+    null,
     'let',
     1
   );
 
-  // Code
+  // MCQ with code snippet
   insertQ.run(
     quizId,
-    'code',
-    'Write a function `sum(a,b)` that returns a + b.',
-    null,
-    null,
+    'mcq',
+    'What does this function return when called as add(2, 3)?',
+    'function add(a, b) {\n  return a + b\n}',
+    JSON.stringify(['5', '23', 'undefined', 'NaN']),
+    '0',
     2
   );
 

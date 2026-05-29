@@ -1,6 +1,6 @@
 // frontend/src/queries/attempts.ts
 import { useMutation } from '@tanstack/react-query'
-import { startAttempt, saveAnswer, submitAttempt } from '../api/attempts'
+import { startAttempt, saveAnswer, submitAttempt } from '../api'
 
 export const useStartAttempt = () =>
   useMutation({ mutationFn: (quizId: number) => startAttempt(quizId) })

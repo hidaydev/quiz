@@ -1,9 +1,11 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import QuizForm, { type QuizFormValues } from '../components/QuizForm'
-import QuestionForm, {
+import {
+  QuizForm,
+  QuestionForm,
+  QuestionList,
+  type QuizFormValues,
   type QuestionFormValues,
-} from '../components/QuestionForm'
-import QuestionList from '../components/QuestionList'
+} from '../components'
 import {
   useQuiz,
   useCreateQuiz,
@@ -11,7 +13,7 @@ import {
   useAddQuestion,
   useUpdateQuestion,
   useDeleteQuestion,
-} from '../queries/quizzes'
+} from '../queries'
 import type { Question } from '../types'
 
 export default function BuilderPage() {
@@ -35,24 +37,21 @@ export default function BuilderPage() {
     }
   }
 
-  const buildPrompt = (prompt: string, codeSnippet?: string) =>
-    codeSnippet?.trim()
-      ? `${prompt}\n\`\`\`\n${codeSnippet.trim()}\n\`\`\``
-      : prompt
-
   const handleAddQuestion = async (values: QuestionFormValues) => {
-    const prompt = buildPrompt(values.prompt, values.codeSnippet)
+    const codeSnippet = values.codeSnippet?.trim() || undefined
     if (values.type === 'mcq') {
       await addQuestion.mutateAsync({
         type: 'mcq',
-        prompt,
+        prompt: values.prompt,
+        codeSnippet,
         options: values.options.map((o) => o.value),
         correctAnswer: values.correctAnswerIndex!,
       })
     } else {
       await addQuestion.mutateAsync({
         type: 'short',
-        prompt,
+        prompt: values.prompt,
+        codeSnippet,
         correctAnswer: values.correctAnswerText!,
       })
     }
@@ -129,7 +128,6 @@ export default function BuilderPage() {
               </span>
             </p>
           </div>
-
           <div>
             <h2 className="text-lg font-semibold mb-3">Questions</h2>
             <QuestionList
