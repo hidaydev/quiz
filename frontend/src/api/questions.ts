@@ -1,12 +1,12 @@
 // frontend/src/api/questions.ts
 import client from './client'
 import { endpoints } from './constants'
-import type { Question } from '../types'
+import type { Question, QuestionType } from '../types'
 
 export const addQuestion = async (
   quizId: number,
   payload: {
-    type: 'mcq' | 'short'
+    type: QuestionType
     prompt: string
     options?: string[]
     correctAnswer: string | number
