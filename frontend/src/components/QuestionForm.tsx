@@ -24,6 +24,7 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
     reset,
     formState: { errors },
   } = useForm<QuestionFormValues>({
+    shouldUnregister: true,
     defaultValues: {
       type: 'mcq',
       options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
@@ -80,20 +81,25 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
             Options — select the correct answer
           </label>
           {fields.map((field, index) => (
-            <div key={field.id} className="flex items-center gap-2">
-              <input
-                type="radio"
-                value={index}
-                {...register('correctAnswerIndex', {
-                  required: 'Select the correct answer',
-                  valueAsNumber: true,
-                })}
-              />
-              <input
-                {...register(`options.${index}.value`, { required: 'Option text is required' })}
-                className="flex-1 border rounded px-3 py-1"
-                placeholder={`Option ${index + 1}`}
-              />
+            <div key={field.id} className="flex flex-col gap-1">
+              <div className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value={index}
+                  {...register('correctAnswerIndex', {
+                    required: 'Select the correct answer',
+                    valueAsNumber: true,
+                  })}
+                />
+                <input
+                  {...register(`options.${index}.value`, { required: 'Option text is required' })}
+                  className="flex-1 border rounded px-3 py-1"
+                  placeholder={`Option ${index + 1}`}
+                />
+              </div>
+              {errors.options?.[index]?.value && (
+                <p className="text-red-600 text-xs ml-6">{errors.options[index].value.message}</p>
+              )}
             </div>
           ))}
           {errors.correctAnswerIndex && (
