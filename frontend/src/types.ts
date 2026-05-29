@@ -26,6 +26,7 @@ export interface Attempt {
   quizId: number
   startedAt: string
   submittedAt: string | null
+  answers: { questionId: number; value: string }[]
   quiz: {
     id: number
     title: string
