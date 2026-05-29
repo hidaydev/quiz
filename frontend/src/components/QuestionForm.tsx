@@ -4,7 +4,6 @@ import { useForm, useFieldArray } from 'react-hook-form'
 export interface QuestionFormValues {
   type: 'mcq' | 'short'
   prompt: string
-  codeSnippet?: string
   options: { value: string }[]
   correctAnswerIndex?: number
   correctAnswerText?: string
@@ -63,16 +62,6 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
           rows={2}
         />
         {errors.prompt && <p className="text-red-600 text-sm mt-1">{errors.prompt.message}</p>}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium mb-1">Code Snippet (optional)</label>
-        <textarea
-          {...register('codeSnippet')}
-          className="w-full border rounded px-3 py-2 font-mono text-sm"
-          rows={3}
-          placeholder="Optional code block displayed with the question"
-        />
       </div>
 
       {type === 'mcq' && (

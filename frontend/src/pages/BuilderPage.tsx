@@ -79,6 +79,7 @@ export default function BuilderPage() {
         <p className="text-gray-500">Loading...</p>
       ) : (
         <QuizForm
+          key={quiz?.id ?? 'new'}
           defaultValues={
             quiz
               ? {

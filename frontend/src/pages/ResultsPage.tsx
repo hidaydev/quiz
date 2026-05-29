@@ -26,14 +26,15 @@ export default function ResultsPage() {
   }
 
   const { result, total } = state as LocationState
-  const percentage = Math.round((result.score / total) * 100)
+  const resolvedTotal = result.details.length || total
+  const percentage = Math.round((result.score / resolvedTotal) * 100)
 
   return (
     <div className="max-w-xl mx-auto p-6 space-y-6">
       <h1 className="text-2xl font-bold">Results</h1>
 
       <div className="border rounded p-4 text-center">
-        <p className="text-4xl font-bold">{result.score} / {total}</p>
+        <p className="text-4xl font-bold">{result.score} / {resolvedTotal}</p>
         <p className="text-gray-500 mt-1">{percentage}% correct</p>
       </div>
 

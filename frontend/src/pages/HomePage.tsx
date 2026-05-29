@@ -9,7 +9,10 @@ export default function HomePage() {
 
   const handleTakeQuiz = (e: React.FormEvent) => {
     e.preventDefault()
-    if (quizId.trim()) navigate(`/quiz/${quizId.trim()}`)
+    const trimmed = quizId.trim()
+    if (trimmed && Number.isInteger(Number(trimmed)) && Number(trimmed) > 0) {
+      navigate(`/quiz/${trimmed}`)
+    }
   }
 
   return (
