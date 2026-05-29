@@ -1,5 +1,5 @@
 // frontend/src/api/quizzes.ts
-import client from './client'
+import client from './axiosClient'
 import { endpoints } from './constants'
 import type { Quiz } from '../types'
 
@@ -25,7 +25,12 @@ export const createQuiz = async (payload: {
 
 export const updateQuiz = async (
   id: number,
-  payload: Partial<{ title: string; description: string; timeLimitSeconds: number; isPublished: boolean }>
+  payload: Partial<{
+    title: string
+    description: string
+    timeLimitSeconds: number
+    isPublished: boolean
+  }>,
 ): Promise<Quiz> => {
   const { data } = await client.patch(endpoints.quiz(id), payload)
   return data

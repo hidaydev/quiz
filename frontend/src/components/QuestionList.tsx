@@ -8,7 +8,12 @@ interface Props {
   onMoveDown: (question: Question) => void
 }
 
-export default function QuestionList({ questions, onDelete, onMoveUp, onMoveDown }: Props) {
+export default function QuestionList({
+  questions,
+  onDelete,
+  onMoveUp,
+  onMoveDown,
+}: Props) {
   if (questions.length === 0) {
     return <p className="text-gray-400 text-sm">No questions yet.</p>
   }
@@ -16,7 +21,10 @@ export default function QuestionList({ questions, onDelete, onMoveUp, onMoveDown
   return (
     <ul className="space-y-2">
       {questions.map((q, index) => (
-        <li key={q.id} className="border rounded p-3 flex items-start justify-between gap-2">
+        <li
+          key={q.id}
+          className="border rounded p-3 flex items-start justify-between gap-2"
+        >
           <div className="flex-1">
             <span className="text-xs font-semibold uppercase text-gray-400 mr-2">
               {q.type}

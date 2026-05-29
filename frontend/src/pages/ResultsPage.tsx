@@ -34,7 +34,9 @@ export default function ResultsPage() {
       <h1 className="text-2xl font-bold">Results</h1>
 
       <div className="border rounded p-4 text-center">
-        <p className="text-4xl font-bold">{result.score} / {resolvedTotal}</p>
+        <p className="text-4xl font-bold">
+          {result.score} / {resolvedTotal}
+        </p>
         <p className="text-gray-500 mt-1">{percentage}% correct</p>
       </div>
 
@@ -62,7 +64,8 @@ export default function ResultsPage() {
               </div>
               {!d.correct && d.expected !== undefined && (
                 <p className="text-sm text-gray-600 mt-1">
-                  Expected: <code className="bg-white px-1 rounded">{d.expected}</code>
+                  Expected:{' '}
+                  <code className="bg-white px-1 rounded">{d.expected}</code>
                 </p>
               )}
             </li>
@@ -70,10 +73,7 @@ export default function ResultsPage() {
         </ul>
       </div>
 
-      <button
-        onClick={() => navigate('/')}
-        className="text-blue-600 underline"
-      >
+      <button onClick={() => navigate('/')} className="text-blue-600 underline">
         Back to Home
       </button>
     </div>

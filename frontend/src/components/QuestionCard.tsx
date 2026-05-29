@@ -36,7 +36,7 @@ export default function QuestionCard({ question, value, onChange }: Props) {
         <input
           type="text"
           value={value}
-          onChange={e => onChange(e.target.value)}
+          onChange={(e) => onChange(e.target.value)}
           className="w-full border rounded px-3 py-2"
           placeholder="Your answer"
         />

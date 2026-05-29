@@ -31,7 +31,7 @@ export default function HomePage() {
         <input
           type="text"
           value={quizId}
-          onChange={e => setQuizId(e.target.value)}
+          onChange={(e) => setQuizId(e.target.value)}
           placeholder="Enter quiz ID to play"
           className="flex-1 border rounded px-3 py-2"
         />
@@ -51,8 +51,11 @@ export default function HomePage() {
       )}
       {quizzes && quizzes.length > 0 && (
         <ul className="space-y-2">
-          {quizzes.map(q => (
-            <li key={q.id} className="border rounded p-3 flex items-center justify-between">
+          {quizzes.map((q) => (
+            <li
+              key={q.id}
+              className="border rounded p-3 flex items-center justify-between"
+            >
               <div>
                 <p className="font-medium">{q.title}</p>
                 <p className="text-sm text-gray-500">{q.description}</p>

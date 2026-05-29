@@ -1,5 +1,5 @@
 // frontend/src/api/questions.ts
-import client from './client'
+import client from './axiosClient'
 import { endpoints } from './constants'
 import type { Question, QuestionType } from '../types'
 
@@ -11,7 +11,7 @@ export const addQuestion = async (
     options?: string[]
     correctAnswer: string | number
     position?: number
-  }
+  },
 ): Promise<Question> => {
   const { data } = await client.post(endpoints.questions(quizId), payload)
   return data
@@ -19,7 +19,12 @@ export const addQuestion = async (
 
 export const updateQuestion = async (
   id: number,
-  payload: Partial<{ position: number; prompt: string; options: string[]; correctAnswer: string | number }>
+  payload: Partial<{
+    position: number
+    prompt: string
+    options: string[]
+    correctAnswer: string | number
+  }>,
 ): Promise<Question> => {
   const { data } = await client.patch(endpoints.question(id), payload)
   return data

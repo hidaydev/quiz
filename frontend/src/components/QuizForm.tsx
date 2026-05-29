@@ -14,7 +14,11 @@ interface Props {
   isLoading?: boolean
 }
 
-export default function QuizForm({ defaultValues, onSubmit, isLoading }: Props) {
+export default function QuizForm({
+  defaultValues,
+  onSubmit,
+  isLoading,
+}: Props) {
   const {
     register,
     handleSubmit,
@@ -31,7 +35,9 @@ export default function QuizForm({ defaultValues, onSubmit, isLoading }: Props) 
           {...register('title', { required: 'Title is required' })}
           className="w-full border rounded px-3 py-2"
         />
-        {errors.title && <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>}
+        {errors.title && (
+          <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>
+        )}
       </div>
 
       <div>
@@ -42,7 +48,9 @@ export default function QuizForm({ defaultValues, onSubmit, isLoading }: Props) 
           rows={3}
         />
         {errors.description && (
-          <p className="text-red-600 text-sm mt-1">{errors.description.message}</p>
+          <p className="text-red-600 text-sm mt-1">
+            {errors.description.message}
+          </p>
         )}
       </div>
 

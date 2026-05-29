@@ -42,7 +42,10 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4 border rounded p-4">
+    <form
+      onSubmit={handleSubmit(handleFormSubmit)}
+      className="space-y-4 border rounded p-4"
+    >
       <div className="flex gap-4">
         <label className="flex items-center gap-1 cursor-pointer">
           <input type="radio" value="mcq" {...register('type')} />
@@ -61,7 +64,9 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
           className="w-full border rounded px-3 py-2"
           rows={2}
         />
-        {errors.prompt && <p className="text-red-600 text-sm mt-1">{errors.prompt.message}</p>}
+        {errors.prompt && (
+          <p className="text-red-600 text-sm mt-1">{errors.prompt.message}</p>
+        )}
       </div>
 
       {type === 'mcq' && (
@@ -81,32 +86,44 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
                   })}
                 />
                 <input
-                  {...register(`options.${index}.value`, { required: 'Option text is required' })}
+                  {...register(`options.${index}.value`, {
+                    required: 'Option text is required',
+                  })}
                   className="flex-1 border rounded px-3 py-1"
                   placeholder={`Option ${index + 1}`}
                 />
               </div>
               {errors.options?.[index]?.value && (
-                <p className="text-red-600 text-xs ml-6">{errors.options[index].value.message}</p>
+                <p className="text-red-600 text-xs ml-6">
+                  {errors.options[index].value.message}
+                </p>
               )}
             </div>
           ))}
           {errors.correctAnswerIndex && (
-            <p className="text-red-600 text-sm">{errors.correctAnswerIndex.message}</p>
+            <p className="text-red-600 text-sm">
+              {errors.correctAnswerIndex.message}
+            </p>
           )}
         </div>
       )}
 
       {type === 'short' && (
         <div>
-          <label className="block text-sm font-medium mb-1">Correct Answer *</label>
+          <label className="block text-sm font-medium mb-1">
+            Correct Answer *
+          </label>
           <input
-            {...register('correctAnswerText', { required: 'Correct answer is required' })}
+            {...register('correctAnswerText', {
+              required: 'Correct answer is required',
+            })}
             className="w-full border rounded px-3 py-2"
             placeholder="Case-insensitive match"
           />
           {errors.correctAnswerText && (
-            <p className="text-red-600 text-sm mt-1">{errors.correctAnswerText.message}</p>
+            <p className="text-red-600 text-sm mt-1">
+              {errors.correctAnswerText.message}
+            </p>
           )}
         </div>
       )}

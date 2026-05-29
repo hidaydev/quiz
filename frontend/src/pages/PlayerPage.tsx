@@ -1,7 +1,12 @@
 // frontend/src/pages/PlayerPage.tsx
 import { useState } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
-import { useStartAttempt, useSaveAnswer, useSubmitAttempt } from '../queries/attempts'
+import axios from 'axios'
+import {
+  useStartAttempt,
+  useSaveAnswer,
+  useSubmitAttempt,
+} from '../queries/attempts'
 import QuestionCard from '../components/QuestionCard'
 import type { Attempt } from '../types'
 
@@ -24,12 +29,17 @@ export default function PlayerPage() {
     try {
       const result = await startAttempt.mutateAsync(quizId)
       setAttempt(result)
-    } catch (e: any) {
-      setStartError(e?.response?.data?.error ?? 'Failed to start quiz. Make sure the quiz is published.')
+    } catch (e) {
+      const msg = axios.isAxiosError(e)
+        ? e.response?.data?.error
+        : 'Failed to start quiz. Make sure the quiz is published.'
+      setStartError(msg)
     }
   }
 
-  const questions = attempt?.quiz.questions ?? []
+  const questions = (attempt?.quiz.questions ?? []).filter(
+    (q) => q.type !== 'code',
+  )
   const currentQuestion = questions[currentIndex]
   const isLastQuestion = currentIndex === questions.length - 1
 
@@ -40,7 +50,7 @@ export default function PlayerPage() {
       questionId: currentQuestion.id,
       value: answers[currentQuestion.id] ?? '',
     })
-    setCurrentIndex(i => i + 1)
+    setCurrentIndex((i) => i + 1)
   }
 
   const handleSubmit = async () => {
@@ -59,7 +69,9 @@ export default function PlayerPage() {
   if (!attempt) {
     return (
       <div className="max-w-xl mx-auto p-6 space-y-4">
-        <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm">← Home</Link>
+        <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm">
+          ← Home
+        </Link>
         <h1 className="text-2xl font-bold">Quiz #{quizId}</h1>
         {startError && <p className="text-red-600 text-sm">{startError}</p>}
         <button
@@ -86,15 +98,15 @@ export default function PlayerPage() {
         <QuestionCard
           question={currentQuestion}
           value={answers[currentQuestion.id] ?? ''}
-          onChange={value =>
-            setAnswers(prev => ({ ...prev, [currentQuestion.id]: value }))
+          onChange={(value) =>
+            setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))
           }
         />
       )}
 
       <div className="flex justify-between">
         <button
-          onClick={() => setCurrentIndex(i => i - 1)}
+          onClick={() => setCurrentIndex((i) => i - 1)}
           disabled={currentIndex === 0}
           className="px-4 py-2 border rounded disabled:opacity-30 hover:bg-gray-50"
         >

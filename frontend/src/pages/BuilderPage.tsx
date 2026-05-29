@@ -1,6 +1,8 @@
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import QuizForm, { type QuizFormValues } from '../components/QuizForm'
-import QuestionForm, { type QuestionFormValues } from '../components/QuestionForm'
+import QuestionForm, {
+  type QuestionFormValues,
+} from '../components/QuestionForm'
 import QuestionList from '../components/QuestionList'
 import {
   useQuiz,
@@ -38,7 +40,7 @@ export default function BuilderPage() {
       await addQuestion.mutateAsync({
         type: 'mcq',
         prompt: values.prompt,
-        options: values.options.map(o => o.value),
+        options: values.options.map((o) => o.value),
         correctAnswer: values.correctAnswerIndex!,
       })
     } else {
@@ -52,27 +54,43 @@ export default function BuilderPage() {
 
   const handleMoveUp = async (question: Question) => {
     const questions = quiz?.questions ?? []
-    const index = questions.findIndex(q => q.id === question.id)
+    const index = questions.findIndex((q) => q.id === question.id)
     if (index <= 0) return
     const above = questions[index - 1]
-    await updateQuestion.mutateAsync({ id: question.id, payload: { position: above.position } })
-    await updateQuestion.mutateAsync({ id: above.id, payload: { position: question.position } })
+    await updateQuestion.mutateAsync({
+      id: question.id,
+      payload: { position: above.position },
+    })
+    await updateQuestion.mutateAsync({
+      id: above.id,
+      payload: { position: question.position },
+    })
   }
 
   const handleMoveDown = async (question: Question) => {
     const questions = quiz?.questions ?? []
-    const index = questions.findIndex(q => q.id === question.id)
+    const index = questions.findIndex((q) => q.id === question.id)
     if (index >= questions.length - 1) return
     const below = questions[index + 1]
-    await updateQuestion.mutateAsync({ id: question.id, payload: { position: below.position } })
-    await updateQuestion.mutateAsync({ id: below.id, payload: { position: question.position } })
+    await updateQuestion.mutateAsync({
+      id: question.id,
+      payload: { position: below.position },
+    })
+    await updateQuestion.mutateAsync({
+      id: below.id,
+      payload: { position: question.position },
+    })
   }
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-8">
       <div className="flex items-center gap-3">
-        <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm">← Home</Link>
-        <h1 className="text-2xl font-bold">{quizId ? 'Edit Quiz' : 'Create Quiz'}</h1>
+        <Link to="/" className="text-gray-400 hover:text-gray-600 text-sm">
+          ← Home
+        </Link>
+        <h1 className="text-2xl font-bold">
+          {quizId ? 'Edit Quiz' : 'Create Quiz'}
+        </h1>
       </div>
 
       {quizId && isLoading ? (
@@ -100,7 +118,9 @@ export default function BuilderPage() {
           <div className="border-t pt-4">
             <p className="text-sm text-gray-500">
               Quiz ID: <strong className="text-gray-800">{quizId}</strong>
-              <span className="ml-2 text-gray-400">(share this ID with players)</span>
+              <span className="ml-2 text-gray-400">
+                (share this ID with players)
+              </span>
             </p>
           </div>
 
@@ -108,7 +128,7 @@ export default function BuilderPage() {
             <h2 className="text-lg font-semibold mb-3">Questions</h2>
             <QuestionList
               questions={quiz?.questions ?? []}
-              onDelete={id => deleteQuestion.mutate(id)}
+              onDelete={(id) => deleteQuestion.mutate(id)}
               onMoveUp={handleMoveUp}
               onMoveDown={handleMoveDown}
             />
@@ -116,7 +136,10 @@ export default function BuilderPage() {
 
           <div>
             <h2 className="text-lg font-semibold mb-3">Add Question</h2>
-            <QuestionForm onSubmit={handleAddQuestion} isLoading={addQuestion.isPending} />
+            <QuestionForm
+              onSubmit={handleAddQuestion}
+              isLoading={addQuestion.isPending}
+            />
           </div>
         </>
       )}

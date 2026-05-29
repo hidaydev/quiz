@@ -25,7 +25,8 @@ export const useCreateQuiz = () => {
 export const useUpdateQuiz = (id: number) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (payload: Parameters<typeof updateQuiz>[1]) => updateQuiz(id, payload),
+    mutationFn: (payload: Parameters<typeof updateQuiz>[1]) =>
+      updateQuiz(id, payload),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: queryKeys.quiz(id) })
       qc.invalidateQueries({ queryKey: queryKeys.quizzes })
@@ -36,7 +37,8 @@ export const useUpdateQuiz = (id: number) => {
 export const useAddQuestion = (quizId: number) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: (payload: Parameters<typeof addQuestion>[1]) => addQuestion(quizId, payload),
+    mutationFn: (payload: Parameters<typeof addQuestion>[1]) =>
+      addQuestion(quizId, payload),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.quiz(quizId) }),
   })
 }
@@ -44,8 +46,13 @@ export const useAddQuestion = (quizId: number) => {
 export const useUpdateQuestion = (quizId: number) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: Parameters<typeof updateQuestion>[1] }) =>
-      updateQuestion(id, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number
+      payload: Parameters<typeof updateQuestion>[1]
+    }) => updateQuestion(id, payload),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.quiz(quizId) }),
   })
 }
