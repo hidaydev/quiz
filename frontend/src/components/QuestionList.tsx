@@ -25,39 +25,9 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
   return (
     <div>
       {questions.map((q, i) => (
-        <div className="card q-card" key={q.id}>
-          <div className="q-head">
-            <span className="q-num">{String(i + 1).padStart(2, '0')}</span>
-            <div className="q-body">
-              <span className={`badge badge-type${q.type === 'short' ? ' short' : ''}`}>
-                {q.type === 'mcq' ? 'Multiple choice' : 'Short answer'}
-              </span>
-              <div className="q-prompt-txt" style={{ marginTop: 8 }}>{q.prompt}</div>
-              {q.codeSnippet && <pre className="code-block">{q.codeSnippet}</pre>}
-              {q.type === 'mcq' && q.options && (
-                <ul className="opt-preview">
-                  {q.options.map((o, oi) => (
-                    <li key={oi} className={oi === q.correctAnswer ? 'correct' : ''}>
-                      <span className="opt-dot"></span>
-                      {o}{oi === q.correctAnswer ? ' ✓' : ''}
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {q.type === 'short' && (
-                <div className="short-ans">
-                  Accepted answer: <b>{String(q.correctAnswer)}</b>
-                </div>
-              )}
-            </div>
-            <div className="q-controls">
-              <button className="icon-btn" onClick={() => setEditingId(editingId === q.id ? null : q.id)} title="Edit">✎</button>
-              <button className="icon-btn danger" onClick={() => { setEditingId(null); onDelete(q.id) }} title="Delete" style={{ color: '#b91c1c' }}>✕</button>
-            </div>
-          </div>
-
-          {editingId === q.id && (
-            <div className="card edit-card" style={{ marginTop: 12, marginBottom: 4, padding: '16px 18px' }}>
+        <div className={`card q-card${editingId === q.id ? ' edit-card' : ''}`} key={q.id}>
+          {editingId === q.id ? (
+            <>
               <div className="section-label" style={{ marginTop: 0, marginBottom: 14 }}>Editing question {i + 1}</div>
               <QuestionForm
                 key={q.id}
@@ -77,6 +47,36 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
                 submitLabel="Save changes"
               />
               <button className="btn btn-ghost" style={{ marginTop: 8, fontSize: 13 }} onClick={() => setEditingId(null)}>Cancel</button>
+            </>
+          ) : (
+            <div className="q-head">
+              <span className="q-num">{String(i + 1).padStart(2, '0')}</span>
+              <div className="q-body">
+                <span className={`badge badge-type${q.type === 'short' ? ' short' : ''}`}>
+                  {q.type === 'mcq' ? 'Multiple choice' : 'Short answer'}
+                </span>
+                <div className="q-prompt-txt" style={{ marginTop: 8 }}>{q.prompt}</div>
+                {q.codeSnippet && <pre className="code-block">{q.codeSnippet}</pre>}
+                {q.type === 'mcq' && q.options && (
+                  <ul className="opt-preview">
+                    {q.options.map((o, oi) => (
+                      <li key={oi} className={oi === q.correctAnswer ? 'correct' : ''}>
+                        <span className="opt-dot"></span>
+                        {o}{oi === q.correctAnswer ? ' ✓' : ''}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {q.type === 'short' && (
+                  <div className="short-ans">
+                    Accepted answer: <b>{String(q.correctAnswer)}</b>
+                  </div>
+                )}
+              </div>
+              <div className="q-controls">
+                <button className="icon-btn" onClick={() => setEditingId(q.id)} title="Edit">✎</button>
+                <button className="icon-btn danger" onClick={() => onDelete(q.id)} title="Delete" style={{ color: '#b91c1c' }}>✕</button>
+              </div>
             </div>
           )}
         </div>
