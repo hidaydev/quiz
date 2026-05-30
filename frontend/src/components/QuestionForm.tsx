@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoading, submitLabel }: Props) {
-  const { register, handleSubmit, watch, control, reset, formState: { errors } } = useForm<QuestionFormValues>({
+  const { register, handleSubmit, watch, control, reset, setValue, getValues, formState: { errors } } = useForm<QuestionFormValues>({
     shouldUnregister: true,
     defaultValues: defaultValues ?? {
       type: 'mcq',
@@ -96,8 +96,17 @@ export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoad
                   <button
                     type="button"
                     className="icon-btn danger"
-                    onClick={() => remove(index)}
+                    onClick={() => {
+                      const current = getValues('correctAnswerIndex')
+                      remove(index)
+                      if (current === index) {
+                        setValue('correctAnswerIndex', undefined as unknown as number, { shouldValidate: true })
+                      } else if (current !== undefined && current > index) {
+                        setValue('correctAnswerIndex', current - 1)
+                      }
+                    }}
                     title="Remove option"
+                    aria-label="Remove option"
                   >
                     ✕
                   </button>
