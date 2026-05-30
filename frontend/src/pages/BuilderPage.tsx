@@ -74,19 +74,19 @@ export default function BuilderPage() {
   return (
     <div className="page">
       <button className="back" onClick={() => navigate('/')}>← Home</button>
-      {quizId > 0 && (
-        <div className="id-banner" style={{ marginBottom: 16 }}>
-          <span>Quiz ID</span>
-          <span className="idnum">{quizId}</span>
-          <button className="btn btn-ghost copy-btn" style={{ fontSize: 13, padding: '6px 12px' }} onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
-        </div>
-      )}
       <h1 className="page-title">{quizId ? 'Edit quiz' : 'Create quiz'}</h1>
       <p className="page-sub">
         {quizId
           ? 'Update the details, then manage questions below.'
           : "Start with the basics. You'll add questions after saving."}
       </p>
+      {quizId > 0 && (
+        <div className="id-banner" style={{ marginBottom: 20 }}>
+          <span>Quiz ID</span>
+          <span className="idnum">{quizId}</span>
+          <button className="btn btn-ghost copy-btn" style={{ fontSize: 13, padding: '6px 12px' }} onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
+        </div>
+      )}
 
       {quizId > 0 && isLoading ? (
         <p className="muted">Loading…</p>
