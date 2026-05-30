@@ -1,6 +1,6 @@
-// frontend/src/pages/ResultsPage.tsx
 import { useLocation, useNavigate } from 'react-router-dom'
 import type { SubmitResult } from '../types'
+
 
 interface LocationState {
   result: SubmitResult

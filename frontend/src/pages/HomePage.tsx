@@ -81,9 +81,8 @@ export default function HomePage() {
                   <div style={{ minWidth: 0 }}>
                     <div className="qi-title">{q.title}</div>
                     <div className="qi-desc">{q.description}</div>
-                    <div className="qi-meta">
-                      <span className="qi-id">{q.id}</span>
-                      <span className="badge badge-pub">● Published</span>
+                    <div className="qi-meta" style={{ marginTop: 6 }}>
+                      <span className="qi-id">Quiz ID: {q.id}</span>
                     </div>
                   </div>
                   <div className="qi-actions">
@@ -99,7 +98,7 @@ export default function HomePage() {
           <div className="spread" style={{ alignItems: 'flex-start', marginBottom: 0 }}>
             <div>
               <h1 className="page-title">Your quizzes</h1>
-              <p className="page-sub">Create, edit, and publish your coding quizzes.</p>
+              <p className="page-sub">Create and manage your coding quizzes.</p>
             </div>
             <Link to="/builder" className="btn btn-primary">+ Create Quiz</Link>
           </div>
@@ -120,11 +119,8 @@ export default function HomePage() {
                   <div style={{ minWidth: 0 }}>
                     <div className="qi-title">{q.title}</div>
                     <div className="qi-desc">{q.description}</div>
-                    <div className="qi-meta">
-                      <span className="qi-id">{q.id}</span>
-                      {q.isPublished
-                        ? <span className="badge badge-pub">● Published</span>
-                        : <span className="badge badge-draft">Draft</span>}
+                    <div className="qi-meta" style={{ marginTop: 6 }}>
+                      <span className="qi-id">Quiz ID: {q.id}</span>
                     </div>
                   </div>
                   <div className="qi-actions">

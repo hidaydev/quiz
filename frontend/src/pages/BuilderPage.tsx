@@ -57,6 +57,13 @@ export default function BuilderPage() {
   return (
     <div className="page">
       <button className="back" onClick={() => navigate('/')}>← Home</button>
+      {quizId && (
+        <div className="id-banner" style={{ marginBottom: 16 }}>
+          <span>Quiz ID</span>
+          <span className="idnum">{quizId}</span>
+          <button className="btn btn-ghost copy-btn" style={{ fontSize: 13, padding: '6px 12px' }} onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
+        </div>
+      )}
       <h1 className="page-title">{quizId ? 'Edit quiz' : 'Create quiz'}</h1>
       <p className="page-sub">
         {quizId
@@ -77,12 +84,6 @@ export default function BuilderPage() {
 
       {quizId && (
         <>
-          <div className="id-banner">
-            <span>Quiz ID</span>
-            <span className="idnum">{quizId}</span>
-            <button className="btn btn-ghost copy-btn" style={{ fontSize: 13, padding: '6px 12px' }} onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
-          </div>
-
           <div className="section-label">Questions ({quiz?.questions?.length ?? 0})</div>
           <QuestionList
             questions={quiz?.questions ?? []}
