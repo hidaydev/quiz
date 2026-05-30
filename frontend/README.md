@@ -74,11 +74,18 @@ import { QuestionCard, QuizForm } from '../components'
 
 A `code_snippet` column was added to the `questions` table as a minor additive change. All existing endpoints remain backward compatible — the field is optional and nullable.
 
+## Multi-Player Behaviour
+
+Multiple players can take the same quiz simultaneously without interference. Each `POST /attempts` creates an isolated row in the database — answers and scoring are scoped to the individual `attempt_id`. There is no shared state between concurrent players.
+
+The backend does not associate attempts with a user identity (no auth / session). This means:
+- Replay prevention is not enforced — a player can start fresh attempts indefinitely.
+- There is no leaderboard or "your best score" concept.
+- These are backend concerns outside the scope of this frontend assignment.
+
 ## Known Limitations
 
 - **Refresh during quiz** — attempt state is held in React state. Refreshing loses progress and forces a new attempt. Resuming would require `GET /attempts/:id` + `GET /attempts/:id/answers` endpoints and persisting `attemptId` in localStorage.
 - **Results not persisted on client** — the results page reads from React Router state, which is lost on refresh or navigation. There is no endpoint to retrieve a past attempt's score and breakdown.
-- **Time limit enforcement is frontend-only** — the backend does not validate submission time. A malicious user could submit after the time limit by calling the API directly, or manipulate their system clock to gain extra time. Server-side enforcement (comparing `submitted_at` vs `started_at + time_limit_seconds`) would be the proper fix.
-- **startedAt timezone** — the backend strips the `Z` from ISO timestamps. The frontend compensates by re-adding it before parsing, but ideally the backend should return valid ISO 8601 (`toISOString()` without modification).
-- **Reorder consistency** — question reordering makes two sequential PATCH requests. If one fails, positions can become inconsistent. A dedicated reorder endpoint with a DB transaction would solve this.
-- **No question editing** — existing questions can be reordered and deleted but not edited in the UI.
+- **`code` type questions** — the backend supports a `code` question type which is not auto-graded but still appears as `correct: false` in the results breakdown. The builder does not create `code` type questions, so this does not affect normal usage.
+- **No question editing** — existing questions can be deleted but not edited in the UI.

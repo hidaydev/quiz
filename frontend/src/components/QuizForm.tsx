@@ -1,11 +1,8 @@
-// frontend/src/components/QuizForm.tsx
 import { useForm } from 'react-hook-form'
 
 export interface QuizFormValues {
   title: string
   description: string
-  timeLimitSeconds?: number
-  isPublished: boolean
 }
 
 interface Props {
@@ -14,75 +11,29 @@ interface Props {
   isLoading?: boolean
 }
 
-export default function QuizForm({
-  defaultValues,
-  onSubmit,
-  isLoading,
-}: Props) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<QuizFormValues>({
-    defaultValues: { isPublished: false, ...defaultValues },
-  })
+export default function QuizForm({ defaultValues, onSubmit, isLoading }: Props) {
+  const { register, handleSubmit, formState: { errors } } = useForm<QuizFormValues>({ defaultValues })
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div>
-        <label className="block text-sm font-medium mb-1">Title *</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="card pad">
+      <div className="field">
+        <label>Title <span className="req">*</span></label>
         <input
-          {...register('title', { required: 'Title is required' })}
-          className="w-full border rounded px-3 py-2"
+          type="text"
+          placeholder="e.g. JavaScript Fundamentals"
+          className={errors.title ? 'input-error' : ''}
+          {...register('title', { required: 'A title is required.' })}
         />
-        {errors.title && (
-          <p className="text-red-600 text-sm mt-1">{errors.title.message}</p>
-        )}
+        {errors.title && <div className="field-error">{errors.title.message}</div>}
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">Description *</label>
-        <textarea
-          {...register('description', { required: 'Description is required' })}
-          className="w-full border rounded px-3 py-2"
-          rows={3}
-        />
-        {errors.description && (
-          <p className="text-red-600 text-sm mt-1">
-            {errors.description.message}
-          </p>
-        )}
+      <div className="field">
+        <label>Description</label>
+        <textarea placeholder="What's this quiz about?" {...register('description')} />
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Time Limit (seconds, optional)
-        </label>
-        <input
-          type="number"
-          min={1}
-          {...register('timeLimitSeconds', { valueAsNumber: true })}
-          className="w-full border rounded px-3 py-2"
-          placeholder="e.g. 300"
-        />
-      </div>
-
-      <div className="flex items-center gap-2">
-        <input type="checkbox" id="isPublished" {...register('isPublished')} />
-        <label htmlFor="isPublished" className="text-sm">
-          Published{' '}
-          <span className="text-gray-500">
-            (must be published for players to take it)
-          </span>
-        </label>
-      </div>
-
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
-      >
-        {isLoading ? 'Saving...' : 'Save Quiz'}
+      <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        {isLoading ? 'Saving…' : defaultValues?.title ? 'Save Quiz' : 'Create Quiz'}
       </button>
     </form>
   )

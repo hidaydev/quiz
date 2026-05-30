@@ -1,4 +1,3 @@
-// frontend/src/components/QuestionCard.tsx
 import type { Question } from '../types'
 
 interface Props {
@@ -9,29 +8,20 @@ interface Props {
 
 export default function QuestionCard({ question, value, onChange }: Props) {
   return (
-    <div className="space-y-4">
-      <p className="font-medium text-lg">{question.prompt}</p>
-      {question.codeSnippet && (
-        <pre className="bg-gray-900 text-gray-100 rounded p-4 text-sm overflow-x-auto">
-          <code>{question.codeSnippet}</code>
-        </pre>
-      )}
+    <div className="question-card card">
+      <div className="q-prompt">{question.prompt}</div>
+      {question.codeSnippet && <pre className="code-block">{question.codeSnippet}</pre>}
 
       {question.type === 'mcq' && question.options && (
-        <div className="space-y-2">
+        <div className="options">
           {question.options.map((opt, i) => (
             <label
               key={i}
-              className="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-gray-50"
+              className={`option${value === String(i) ? ' selected' : ''}`}
+              onClick={() => onChange(String(i))}
             >
-              <input
-                type="radio"
-                name={`q-${question.id}`}
-                value={String(i)}
-                checked={value === String(i)}
-                onChange={() => onChange(String(i))}
-              />
-              <span>{opt}</span>
+              <span className="dot"></span>
+              {opt}
             </label>
           ))}
         </div>
@@ -40,10 +30,11 @@ export default function QuestionCard({ question, value, onChange }: Props) {
       {question.type === 'short' && (
         <input
           type="text"
+          className="short-input"
+          placeholder="Type your answer…"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full border rounded px-3 py-2"
-          placeholder="Your answer"
+          autoFocus
         />
       )}
     </div>

@@ -7,6 +7,7 @@ export const endpoints = {
   attempts: '/attempts',
   attemptAnswer: (id: number) => `/attempts/${id}/answer`,
   attemptSubmit: (id: number) => `/attempts/${id}/submit`,
+  attemptEvent: (id: number) => `/attempts/${id}/events`,
 }
 
 export const queryKeys = {

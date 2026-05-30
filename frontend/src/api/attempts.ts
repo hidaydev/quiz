@@ -22,3 +22,7 @@ export const submitAttempt = async (
   const { data } = await client.post(endpoints.attemptSubmit(attemptId))
   return data
 }
+
+export const logEvent = (attemptId: number, event: string): void => {
+  client.post(endpoints.attemptEvent(attemptId), { event }).catch(() => {})
+}

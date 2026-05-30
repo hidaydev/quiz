@@ -5,7 +5,6 @@ export interface Quiz {
   id: number
   title: string
   description: string
-  timeLimitSeconds?: number
   isPublished: boolean
   createdAt: string
   questions?: Question[]
@@ -32,7 +31,6 @@ export interface Attempt {
     id: number
     title: string
     description: string
-    timeLimitSeconds?: number
     questions: Omit<Question, 'correctAnswer'>[]
   }
 }

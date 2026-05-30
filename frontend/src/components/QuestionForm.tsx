@@ -1,4 +1,3 @@
-// frontend/src/components/QuestionForm.tsx
 import { useForm, useFieldArray } from 'react-hook-form'
 
 export interface QuestionFormValues {
@@ -16,14 +15,7 @@ interface Props {
 }
 
 export default function QuestionForm({ onSubmit, isLoading }: Props) {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm<QuestionFormValues>({
+  const { register, handleSubmit, watch, control, reset, formState: { errors } } = useForm<QuestionFormValues>({
     shouldUnregister: true,
     defaultValues: {
       type: 'mcq',
@@ -36,118 +28,84 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
 
   const handleFormSubmit = (values: QuestionFormValues) => {
     onSubmit(values)
-    reset({
-      type: values.type,
-      options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
-    })
+    reset({ type: values.type, options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }] })
   }
 
   return (
-    <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="space-y-4 border rounded p-4"
-    >
-      <div className="flex gap-4">
-        <label className="flex items-center gap-1 cursor-pointer">
-          <input type="radio" value="mcq" {...register('type')} />
-          Multiple Choice
-        </label>
-        <label className="flex items-center gap-1 cursor-pointer">
-          <input type="radio" value="short" {...register('type')} />
-          Short Answer
-        </label>
+    <form onSubmit={handleSubmit(handleFormSubmit)}>
+      <div className="field">
+        <label>Question type</label>
+        <div className="radio-group">
+          <label className={`radio-pill${type === 'mcq' ? ' sel' : ''}`}>
+            <input type="radio" value="mcq" {...register('type')} />
+            Multiple choice
+          </label>
+          <label className={`radio-pill${type === 'short' ? ' sel' : ''}`}>
+            <input type="radio" value="short" {...register('type')} />
+            Short answer
+          </label>
+        </div>
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">Prompt *</label>
+      <div className="field">
+        <label>Prompt <span className="req">*</span></label>
         <textarea
-          {...register('prompt', { required: 'Prompt is required' })}
-          className="w-full border rounded px-3 py-2"
-          rows={2}
+          placeholder="e.g. What does typeof null evaluate to?"
+          {...register('prompt', { required: 'A question prompt is required.' })}
         />
-        {errors.prompt && (
-          <p className="text-red-600 text-sm mt-1">{errors.prompt.message}</p>
-        )}
+        {errors.prompt && <div className="field-error">{errors.prompt.message}</div>}
       </div>
 
-      <div>
-        <label className="block text-sm font-medium mb-1">
-          Code Snippet{' '}
-          <span className="text-gray-400 font-normal">(optional)</span>
-        </label>
+      <div className="field">
+        <label>Code snippet <span className="hint">(optional — shown in a code block)</span></label>
         <textarea
+          className="mono"
+          style={{ minHeight: 70 }}
+          placeholder="console.log(0.1 + 0.2);"
           {...register('codeSnippet')}
-          className="w-full border rounded px-3 py-2 font-mono text-sm"
-          rows={4}
-          placeholder="Paste code here..."
         />
       </div>
 
       {type === 'mcq' && (
-        <div className="space-y-2">
-          <label className="block text-sm font-medium">
-            Options — select the correct answer
-          </label>
+        <div className="field">
+          <label>Options <span className="hint">(select the correct one)</span></label>
           {fields.map((field, index) => (
-            <div key={field.id} className="flex flex-col gap-1">
-              <div className="flex items-center gap-2">
+            <div key={field.id}>
+              <div className="opt-input-row">
                 <input
                   type="radio"
                   value={index}
-                  {...register('correctAnswerIndex', {
-                    required: 'Select the correct answer',
-                    valueAsNumber: true,
-                  })}
+                  {...register('correctAnswerIndex', { required: 'Select the correct answer', valueAsNumber: true })}
                 />
                 <input
-                  {...register(`options.${index}.value`, {
-                    required: 'Option text is required',
-                  })}
-                  className="flex-1 border rounded px-3 py-1"
+                  type="text"
                   placeholder={`Option ${index + 1}`}
+                  {...register(`options.${index}.value`, { required: 'Option text is required' })}
                 />
               </div>
               {errors.options?.[index]?.value && (
-                <p className="text-red-600 text-xs ml-6">
-                  {errors.options[index].value.message}
-                </p>
+                <div className="field-error" style={{ marginLeft: 28, marginBottom: 6 }}>{errors.options[index].value.message}</div>
               )}
             </div>
           ))}
-          {errors.correctAnswerIndex && (
-            <p className="text-red-600 text-sm">
-              {errors.correctAnswerIndex.message}
-            </p>
-          )}
+          {errors.correctAnswerIndex && <div className="field-error">{errors.correctAnswerIndex.message}</div>}
         </div>
       )}
 
       {type === 'short' && (
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Correct Answer *
-          </label>
+        <div className="field">
+          <label>Accepted answer <span className="hint">(case-insensitive)</span></label>
           <input
-            {...register('correctAnswerText', {
-              required: 'Correct answer is required',
-            })}
-            className="w-full border rounded px-3 py-2"
-            placeholder="Case-insensitive match"
+            type="text"
+            placeholder="e.g. JSON.parse"
+            {...register('correctAnswerText', { required: 'Provide the accepted answer.' })}
           />
-          {errors.correctAnswerText && (
-            <p className="text-red-600 text-sm mt-1">
-              {errors.correctAnswerText.message}
-            </p>
-          )}
+          {errors.correctAnswerText && <div className="field-error">{errors.correctAnswerText.message}</div>}
         </div>
       )}
 
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 disabled:opacity-50"
-      >
-        {isLoading ? 'Adding...' : 'Add Question'}
+      <button type="submit" className="btn btn-primary" disabled={isLoading}>
+        {isLoading ? 'Adding…' : '+ Add Question'}
       </button>
     </form>
   )

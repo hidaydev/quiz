@@ -5,6 +5,7 @@ import type { SubmitResult } from '../types'
 interface LocationState {
   result: SubmitResult
   total: number
+  antiCheat?: { tabSwitches: number; pastes: number }
 }
 
 export default function ResultsPage() {
@@ -13,67 +14,59 @@ export default function ResultsPage() {
 
   if (!state) {
     return (
-      <div className="max-w-xl mx-auto p-6 space-y-4">
-        <p className="text-gray-600">No results found.</p>
-        <button
-          onClick={() => navigate('/')}
-          className="text-blue-600 underline"
-        >
+      <div className="page">
+        <p className="muted">No results found.</p>
+        <button className="btn btn-ghost" style={{ marginTop: 12 }} onClick={() => navigate('/')}>
           Back to Home
         </button>
       </div>
     )
   }
 
-  const { result, total } = state as LocationState
+  const { result, total, antiCheat } = state as LocationState
   const resolvedTotal = result.details.length || total
   const percentage = Math.round((result.score / resolvedTotal) * 100)
 
   return (
-    <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Results</h1>
-
-      <div className="border rounded p-4 text-center">
-        <p className="text-4xl font-bold">
-          {result.score} / {resolvedTotal}
-        </p>
-        <p className="text-gray-500 mt-1">{percentage}% correct</p>
+    <div className="page">
+      <button className="back" onClick={() => navigate('/')}>← Home</button>
+      <div className="card score-card" style={{ marginBottom: 32 }}>
+        <div className="score-big">
+          {result.score}<span className="denom"> / {resolvedTotal}</span>
+        </div>
+        <div className="score-pct">
+          {percentage}% correct — {percentage >= 80 ? 'Excellent work!' : percentage >= 50 ? 'Nice effort.' : 'Keep practicing!'}
+        </div>
       </div>
 
-      <div>
-        <h2 className="text-lg font-semibold mb-3">Per-question breakdown</h2>
-        <ul className="space-y-2">
-          {result.details.map((d, i) => (
-            <li
-              key={d.questionId}
-              className={`border rounded p-3 ${
-                d.correct
-                  ? 'border-green-300 bg-green-50'
-                  : 'border-red-200 bg-red-50'
-              }`}
-            >
-              <div className="flex justify-between">
-                <span className="font-medium text-sm">Question {i + 1}</span>
-                <span
-                  className={`text-sm font-medium ${
-                    d.correct ? 'text-green-700' : 'text-red-600'
-                  }`}
-                >
-                  {d.correct ? '✓ Correct' : '✗ Incorrect'}
-                </span>
-              </div>
+      {antiCheat && (antiCheat.tabSwitches > 0 || antiCheat.pastes > 0) && (
+        <div className="notice-error" style={{ marginBottom: 24 }}>
+          <span>⚠</span>
+          <span>
+            {[
+              antiCheat.tabSwitches > 0 && `${antiCheat.tabSwitches} tab switch${antiCheat.tabSwitches > 1 ? 'es' : ''}`,
+              antiCheat.pastes > 0 && `${antiCheat.pastes} paste${antiCheat.pastes > 1 ? 's' : ''}`,
+            ].filter(Boolean).join(', ')} detected
+          </span>
+        </div>
+      )}
+
+      <div className="section-label">Question breakdown</div>
+      <div className="breakdown">
+        {result.details.map((d, i) => (
+          <div key={d.questionId} className={`bd-row ${d.correct ? 'correct' : 'incorrect'}`}>
+            <div className="bd-q">
+              <span className="bd-prompt">Question {i + 1}</span>
               {!d.correct && d.expected !== undefined && (
-                <p className="text-sm text-gray-600 mt-1">
-                  Expected:{' '}
-                  <code className="bg-white px-1 rounded">{d.expected}</code>
-                </p>
+                <span className="expected">Expected: <code>{d.expected}</code></span>
               )}
-            </li>
-          ))}
-        </ul>
+            </div>
+            <span className="bd-status">{d.correct ? '✓ Correct' : '✗ Incorrect'}</span>
+          </div>
+        ))}
       </div>
 
-      <button onClick={() => navigate('/')} className="text-blue-600 underline">
+      <button className="btn btn-primary btn-block" style={{ marginTop: 26 }} onClick={() => navigate('/')}>
         Back to Home
       </button>
     </div>

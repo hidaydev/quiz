@@ -2,84 +2,139 @@ import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useQuizzes } from '../queries'
 
+function Brand() {
+  return (
+    <Link to="/" className="brand">
+      <span className="mark">Q</span>
+      Quiz Maker
+    </Link>
+  )
+}
+
 export default function HomePage() {
   const { data: quizzes, isLoading, error } = useQuizzes()
+  const [tab, setTab] = useState<'play' | 'build'>('play')
   const [quizId, setQuizId] = useState('')
+  const [idError, setIdError] = useState('')
   const navigate = useNavigate()
 
   const handleTakeQuiz = (e: React.FormEvent) => {
     e.preventDefault()
-    const trimmed = quizId.trim()
-    if (trimmed && Number.isInteger(Number(trimmed)) && Number(trimmed) > 0) {
-      navigate(`/quiz/${trimmed}`)
+    const v = quizId.trim()
+    if (!/^\d+$/.test(v) || parseInt(v, 10) <= 0) {
+      setIdError('Enter a valid quiz ID (a positive number).')
+      return
     }
+    setIdError('')
+    navigate(`/quiz/${v}`)
   }
 
+  const published = quizzes?.filter((q) => q.isPublished) ?? []
+
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">Quiz Maker</h1>
-        <Link
-          to="/builder"
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-        >
-          Create Quiz
-        </Link>
+    <div className="page">
+      <div className="app-head">
+        <Brand />
+        <div className="tabs" role="tablist">
+          <button className={`tab${tab === 'play' ? ' active' : ''}`} onClick={() => setTab('play')}>Play</button>
+          <button className={`tab${tab === 'build' ? ' active' : ''}`} onClick={() => setTab('build')}>Build</button>
+        </div>
       </div>
 
-      <form onSubmit={handleTakeQuiz} className="flex gap-2 mb-8">
-        <input
-          type="text"
-          value={quizId}
-          onChange={(e) => setQuizId(e.target.value)}
-          placeholder="Enter quiz ID to play"
-          className="flex-1 border rounded px-3 py-2"
-        />
-        <button
-          type="submit"
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          Take Quiz
-        </button>
-      </form>
+      {tab === 'play' ? (
+        <>
+          <h1 className="page-title">Play a quiz</h1>
+          <p className="page-sub">Got a quiz ID? Drop it in. Or browse public quizzes below.</p>
 
-      <h2 className="text-lg font-semibold mb-3">All Quizzes</h2>
-      {isLoading && <p className="text-gray-500">Loading...</p>}
-      {error && <p className="text-red-600">Failed to load quizzes.</p>}
-      {quizzes && quizzes.length === 0 && (
-        <p className="text-gray-400 text-sm">No quizzes yet. Create one!</p>
-      )}
-      {quizzes && quizzes.length > 0 && (
-        <ul className="space-y-2">
-          {quizzes.map((q) => (
-            <li
-              key={q.id}
-              className="border rounded p-3 flex items-center justify-between"
-            >
-              <div>
-                <p className="font-medium">{q.title}</p>
-                <p className="text-sm text-gray-500">{q.description}</p>
-                <p className="text-xs text-gray-400 mt-1">
-                  ID: {q.id} · {q.isPublished ? 'Published' : 'Draft'}
-                </p>
+          <form onSubmit={handleTakeQuiz} className="card pad" style={{ marginBottom: 32 }}>
+            <div className="field" style={{ marginBottom: 0 }}>
+              <label>Quiz ID</label>
+              <div style={{ display: 'flex', gap: 10 }}>
+                <input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder="e.g. 1042"
+                  value={quizId}
+                  className={idError ? 'input-error' : ''}
+                  onChange={(e) => { setQuizId(e.target.value); setIdError('') }}
+                />
+                <button type="submit" className="btn btn-primary">Take Quiz</button>
               </div>
-              <div className="flex gap-2 shrink-0">
-                <Link
-                  to={`/builder/${q.id}`}
-                  className="text-sm text-blue-600 underline"
-                >
-                  Edit
-                </Link>
-                <Link
-                  to={`/quiz/${q.id}`}
-                  className="text-sm text-green-600 underline"
-                >
-                  Play
-                </Link>
-              </div>
-            </li>
-          ))}
-        </ul>
+              {idError && <div className="field-error" style={{ marginTop: 8 }}>{idError}</div>}
+            </div>
+          </form>
+
+          <div className="section-label">Public quizzes</div>
+          {isLoading && <p className="muted">Loading…</p>}
+          {error && <p style={{ color: 'var(--bad-fg)' }}>Failed to load quizzes.</p>}
+          {!isLoading && published.length === 0 && (
+            <div className="empty-state">
+              <div className="em-emoji">🔍</div>
+              <div className="em-title">No public quizzes yet</div>
+              <div>Ask a creator for a quiz ID to get started.</div>
+            </div>
+          )}
+          {published.length > 0 && (
+            <div className="list">
+              {published.map((q) => (
+                <div className="card quiz-item" key={q.id}>
+                  <div style={{ minWidth: 0 }}>
+                    <div className="qi-title">{q.title}</div>
+                    <div className="qi-desc">{q.description}</div>
+                    <div className="qi-meta">
+                      <span className="qi-id">{q.id}</span>
+                      <span className="badge badge-pub">● Published</span>
+                    </div>
+                  </div>
+                  <div className="qi-actions">
+                    <button className="btn btn-primary" onClick={() => navigate(`/quiz/${q.id}`)}>Play →</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
+      ) : (
+        <>
+          <div className="spread" style={{ alignItems: 'flex-start', marginBottom: 0 }}>
+            <div>
+              <h1 className="page-title">Your quizzes</h1>
+              <p className="page-sub">Create, edit, and publish your coding quizzes.</p>
+            </div>
+            <Link to="/builder" className="btn btn-primary">+ Create Quiz</Link>
+          </div>
+          {isLoading && <p className="muted">Loading…</p>}
+          {error && <p style={{ color: 'var(--bad-fg)' }}>Failed to load quizzes.</p>}
+          {!isLoading && quizzes?.length === 0 && (
+            <div className="empty-state">
+              <div className="em-emoji">✏️</div>
+              <div className="em-title">No quizzes yet</div>
+              <div>Create your first quiz to see it here.</div>
+              <Link to="/builder" className="btn btn-primary" style={{ marginTop: 16 }}>+ Create Quiz</Link>
+            </div>
+          )}
+          {quizzes && quizzes.length > 0 && (
+            <div className="list">
+              {quizzes.map((q) => (
+                <div className="card quiz-item" key={q.id}>
+                  <div style={{ minWidth: 0 }}>
+                    <div className="qi-title">{q.title}</div>
+                    <div className="qi-desc">{q.description}</div>
+                    <div className="qi-meta">
+                      <span className="qi-id">{q.id}</span>
+                      {q.isPublished
+                        ? <span className="badge badge-pub">● Published</span>
+                        : <span className="badge badge-draft">Draft</span>}
+                    </div>
+                  </div>
+                  <div className="qi-actions">
+                    <Link to={`/builder/${q.id}`} className="btn btn-ghost">Edit</Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   )
