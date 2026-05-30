@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import {
   HomePage,
   BuilderPage,
@@ -11,7 +11,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<Navigate to="/play" replace />} />
+        <Route path="/play" element={<HomePage />} />
+        <Route path="/build" element={<HomePage />} />
         <Route path="/builder" element={<BuilderPage />} />
         <Route path="/builder/:id" element={<BuilderPage />} />
         <Route path="/quiz/:id" element={<PlayerPage />} />

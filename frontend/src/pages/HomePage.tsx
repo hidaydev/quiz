@@ -1,9 +1,10 @@
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useQuizzes } from '../queries'
 
 function Brand() {
   return (
-    <Link to="/" className="brand">
+    <Link to="/play" className="brand">
       <span className="mark">Q</span>
       Quiz Maker
     </Link>
@@ -12,8 +13,8 @@ function Brand() {
 
 export default function HomePage() {
   const { data: quizzes, isLoading, error } = useQuizzes()
-  const [searchParams, setSearchParams] = useSearchParams()
-  const tab = (searchParams.get('tab') === 'build' ? 'build' : 'play') as 'play' | 'build'
+  const location = useLocation()
+  const tab = location.pathname === '/build' ? 'build' : 'play'
   const [quizId, setQuizId] = useState('')
   const [idError, setIdError] = useState('')
   const navigate = useNavigate()
@@ -36,8 +37,8 @@ export default function HomePage() {
       <div className="app-head">
         <Brand />
         <div className="tabs" role="tablist">
-          <button className={`tab${tab === 'play' ? ' active' : ''}`} onClick={() => setSearchParams({ tab: 'play' })}>Play</button>
-          <button className={`tab${tab === 'build' ? ' active' : ''}`} onClick={() => setSearchParams({ tab: 'build' })}>Build</button>
+          <Link className={`tab${tab === 'play' ? ' active' : ''}`} to="/play">Play</Link>
+          <Link className={`tab${tab === 'build' ? ' active' : ''}`} to="/build">Build</Link>
         </div>
       </div>
 
