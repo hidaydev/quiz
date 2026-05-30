@@ -16,7 +16,7 @@ export default function PlayerPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [startError, setStartError] = useState<string | null>(null)
 
-  const { data: quiz, isError: quizNotFound, isLoading: quizLoading } = useQuiz(quizId)
+  const { data: quiz, isError: quizNotFound, isLoading: quizLoading, isFetching: quizFetching } = useQuiz(quizId)
   const startAttempt = useStartAttempt()
   const saveAnswer = useSaveAnswer()
   const submitAttempt = useSubmitAttempt()
@@ -65,11 +65,12 @@ export default function PlayerPage() {
   if (!attempt) {
     return (
       <div className="page">
-        <button className="back" onClick={() => navigate('/')}>← Home</button>
+        <button className="back" onClick={() => navigate('/play')}>← Home</button>
         <div className="card start-card">
           <div className="start-emoji">🧠</div>
           <h2>{quizLoading ? `Quiz #${quizId}` : (quiz?.title ?? `Quiz #${quizId}`)}</h2>
           {quiz?.description && <p className="muted" style={{ marginBottom: 8 }}>{quiz.description}</p>}
+          {quizFetching && <p className="muted" style={{ marginBottom: 12 }}>Loading quiz…</p>}
           {quizNotFound && (
             <div className="notice-error" style={{ marginBottom: 16, textAlign: 'left' }}>
               <span>⚠</span>
@@ -88,7 +89,7 @@ export default function PlayerPage() {
               <div className="ml">Questions</div>
             </div>
           </div>
-          <button className="btn btn-primary btn-lg" onClick={handleStart} disabled={startAttempt.isPending || quizNotFound}>
+          <button className="btn btn-primary btn-lg" onClick={handleStart} disabled={startAttempt.isPending || quizLoading || quizNotFound}>
             {startAttempt.isPending ? 'Starting…' : 'Start Quiz'}
           </button>
         </div>
