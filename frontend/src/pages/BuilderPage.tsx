@@ -11,6 +11,7 @@ import {
   useCreateQuiz,
   useUpdateQuiz,
   useAddQuestion,
+  useUpdateQuestion,
   useDeleteQuestion,
 } from '../queries'
 
@@ -23,6 +24,7 @@ export default function BuilderPage() {
   const createQuiz = useCreateQuiz()
   const updateQuiz = useUpdateQuiz(quizId)
   const addQuestion = useAddQuestion(quizId)
+  const updateQuestion = useUpdateQuestion(quizId)
   const deleteQuestion = useDeleteQuestion(quizId)
 
   const handleQuizSubmit = async (values: QuizFormValues) => {
@@ -31,6 +33,21 @@ export default function BuilderPage() {
     } else {
       const created = await createQuiz.mutateAsync({ ...values, isPublished: true })
       navigate(`/builder/${created.id}`)
+    }
+  }
+
+  const handleEditQuestion = async (questionId: number, values: QuestionFormValues) => {
+    const codeSnippet = values.codeSnippet?.trim() || undefined
+    if (values.type === 'mcq') {
+      await updateQuestion.mutateAsync({
+        id: questionId,
+        payload: { type: 'mcq', prompt: values.prompt, codeSnippet, options: values.options.map((o) => o.value), correctAnswer: values.correctAnswerIndex! },
+      })
+    } else {
+      await updateQuestion.mutateAsync({
+        id: questionId,
+        payload: { type: 'short', prompt: values.prompt, codeSnippet, correctAnswer: values.correctAnswerText! },
+      })
     }
   }
 
@@ -57,7 +74,7 @@ export default function BuilderPage() {
   return (
     <div className="page">
       <button className="back" onClick={() => navigate('/')}>← Home</button>
-      {quizId && (
+      {quizId > 0 && (
         <div className="id-banner" style={{ marginBottom: 16 }}>
           <span>Quiz ID</span>
           <span className="idnum">{quizId}</span>
@@ -71,7 +88,7 @@ export default function BuilderPage() {
           : "Start with the basics. You'll add questions after saving."}
       </p>
 
-      {quizId && isLoading ? (
+      {quizId > 0 && isLoading ? (
         <p className="muted">Loading…</p>
       ) : (
         <QuizForm
@@ -82,12 +99,14 @@ export default function BuilderPage() {
         />
       )}
 
-      {quizId && (
+      {quizId > 0 && (
         <>
           <div className="section-label">Questions ({quiz?.questions?.length ?? 0})</div>
           <QuestionList
             questions={quiz?.questions ?? []}
             onDelete={(id) => deleteQuestion.mutate(id)}
+            onEdit={handleEditQuestion}
+            isEditing={updateQuestion.isPending}
           />
 
           <div className="card pad" style={{ marginTop: 24 }}>

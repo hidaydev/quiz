@@ -125,7 +125,7 @@ textarea { resize: vertical; min-height: 88px; line-height: 1.5; }
 .opt-preview .opt-dot { width: 16px; height: 16px; border-radius: 999px; border: 2px solid currentColor; opacity: .35; flex-shrink: 0; }
 .opt-preview li.correct .opt-dot { opacity: 1; }
 .short-ans { margin-top: 10px; font-size: 14px; color: var(--muted); }
-.short-ans code { font-family: var(--mono); font-weight: 600; background: var(--ok-bg); color: var(--ok-fg); padding: 1px 8px; border-radius: 5px; }
+.short-ans b { font-family: var(--mono); font-weight: 600; background: var(--ok-bg); color: var(--ok-fg); padding: 1px 8px; border-radius: 5px; }
 
 .radio-group { display: flex; gap: 10px; }
 .radio-pill { flex: 1; display: flex; align-items: center; gap: 9px; padding: 12px 14px; border: 1.5px solid var(--border); border-radius: var(--radius-sm); cursor: pointer; font-weight: 500; font-size: 14px; transition: all .12s; }

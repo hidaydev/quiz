@@ -21,6 +21,7 @@ export const addQuestion = async (
 export const updateQuestion = async (
   id: number,
   payload: Partial<{
+    type: QuestionType
     position: number
     prompt: string
     codeSnippet: string

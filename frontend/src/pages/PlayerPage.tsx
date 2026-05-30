@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { useStartAttempt, useSaveAnswer, useSubmitAttempt } from '../queries'
+import { useQuiz, useStartAttempt, useSaveAnswer, useSubmitAttempt } from '../queries'
 import { useAntiCheat } from '../hooks'
 import { QuestionCard } from '../components'
 import type { Attempt } from '../types'
@@ -16,6 +16,7 @@ export default function PlayerPage() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [startError, setStartError] = useState<string | null>(null)
 
+  const { data: quiz } = useQuiz(quizId)
   const startAttempt = useStartAttempt()
   const saveAnswer = useSaveAnswer()
   const submitAttempt = useSubmitAttempt()
@@ -67,7 +68,8 @@ export default function PlayerPage() {
         <button className="back" onClick={() => navigate('/')}>← Home</button>
         <div className="card start-card">
           <div className="start-emoji">🧠</div>
-          <h2>Quiz #{quizId}</h2>
+          <h2>{quiz?.title ?? `Quiz #${quizId}`}</h2>
+          {quiz?.description && <p className="muted" style={{ marginBottom: 8 }}>{quiz.description}</p>}
           {startError && (
             <div className="notice-error" style={{ marginBottom: 16, textAlign: 'left' }}>
               <span>⚠</span>
@@ -76,7 +78,7 @@ export default function PlayerPage() {
           )}
           <div className="meta-row">
             <div className="meta-item">
-              <div className="mv">—</div>
+              <div className="mv">{quiz?.questions?.length ?? '—'}</div>
               <div className="ml">Questions</div>
             </div>
           </div>

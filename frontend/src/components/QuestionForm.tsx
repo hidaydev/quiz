@@ -11,13 +11,15 @@ export interface QuestionFormValues {
 
 interface Props {
   onSubmit: (values: QuestionFormValues) => void
+  defaultValues?: Partial<QuestionFormValues>
   isLoading?: boolean
+  submitLabel?: string
 }
 
-export default function QuestionForm({ onSubmit, isLoading }: Props) {
+export default function QuestionForm({ onSubmit, defaultValues, isLoading, submitLabel }: Props) {
   const { register, handleSubmit, watch, control, reset, formState: { errors } } = useForm<QuestionFormValues>({
     shouldUnregister: true,
-    defaultValues: {
+    defaultValues: defaultValues ?? {
       type: 'mcq',
       options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
     },
@@ -28,7 +30,7 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
 
   const handleFormSubmit = (values: QuestionFormValues) => {
     onSubmit(values)
-    reset({ type: values.type, options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }] })
+    if (!defaultValues) reset({ type: values.type, options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }] })
   }
 
   return (
@@ -105,7 +107,7 @@ export default function QuestionForm({ onSubmit, isLoading }: Props) {
       )}
 
       <button type="submit" className="btn btn-primary" disabled={isLoading}>
-        {isLoading ? 'Adding…' : '+ Add Question'}
+        {isLoading ? 'Saving…' : (submitLabel ?? '+ Add Question')}
       </button>
     </form>
   )

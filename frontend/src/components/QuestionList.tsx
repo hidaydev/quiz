@@ -1,11 +1,17 @@
+import { useState } from 'react'
 import type { Question } from '../types'
+import QuestionForm, { type QuestionFormValues } from './QuestionForm'
 
 interface Props {
   questions: Question[]
   onDelete: (id: number) => void
+  onEdit: (id: number, values: QuestionFormValues) => Promise<void>
+  isEditing?: boolean
 }
 
-export default function QuestionList({ questions, onDelete }: Props) {
+export default function QuestionList({ questions, onDelete, onEdit, isEditing }: Props) {
+  const [editingId, setEditingId] = useState<number | null>(null)
+
   if (questions.length === 0) {
     return (
       <div className="empty-state">
@@ -40,14 +46,39 @@ export default function QuestionList({ questions, onDelete }: Props) {
               )}
               {q.type === 'short' && (
                 <div className="short-ans">
-                  Accepted: <code>{String(q.correctAnswer)}</code>
+                  Accepted answer: <b>{String(q.correctAnswer)}</b>
                 </div>
               )}
             </div>
             <div className="q-controls">
-              <button className="icon-btn danger" onClick={() => onDelete(q.id)} title="Delete" style={{ color: '#b91c1c' }}>✕</button>
+              <button className="icon-btn" onClick={() => setEditingId(editingId === q.id ? null : q.id)} title="Edit">✎</button>
+              <button className="icon-btn danger" onClick={() => { setEditingId(null); onDelete(q.id) }} title="Delete" style={{ color: '#b91c1c' }}>✕</button>
             </div>
           </div>
+
+          {editingId === q.id && (
+            <div className="card edit-card" style={{ marginTop: 12, marginBottom: 4, padding: '16px 18px' }}>
+              <div className="section-label" style={{ marginTop: 0, marginBottom: 14 }}>Editing question {i + 1}</div>
+              <QuestionForm
+                key={q.id}
+                defaultValues={{
+                  type: q.type as 'mcq' | 'short',
+                  prompt: q.prompt,
+                  codeSnippet: q.codeSnippet,
+                  options: q.options?.map((o) => ({ value: o })) ?? [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
+                  correctAnswerIndex: q.type === 'mcq' ? q.correctAnswer as number : undefined,
+                  correctAnswerText: q.type === 'short' ? String(q.correctAnswer ?? '') : undefined,
+                }}
+                onSubmit={async (values) => {
+                  await onEdit(q.id, values)
+                  setEditingId(null)
+                }}
+                isLoading={isEditing}
+                submitLabel="Save changes"
+              />
+              <button className="btn btn-ghost" style={{ marginTop: 8, fontSize: 13 }} onClick={() => setEditingId(null)}>Cancel</button>
+            </div>
+          )}
         </div>
       ))}
     </div>
