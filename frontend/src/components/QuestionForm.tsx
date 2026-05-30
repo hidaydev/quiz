@@ -27,7 +27,7 @@ export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoad
   })
 
   const type = watch('type')
-  const { fields } = useFieldArray({ control, name: 'options' })
+  const { fields, append, remove } = useFieldArray({ control, name: 'options' })
 
   const handleFormSubmit = (values: QuestionFormValues) => {
     onSubmit(values)
@@ -92,6 +92,16 @@ export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoad
                   placeholder={`Option ${index + 1}`}
                   {...register(`options.${index}.value`, { required: 'Option text is required' })}
                 />
+                {fields.length > 2 && (
+                  <button
+                    type="button"
+                    className="icon-btn danger"
+                    onClick={() => remove(index)}
+                    title="Remove option"
+                  >
+                    ✕
+                  </button>
+                )}
               </div>
               {errors.options?.[index]?.value && (
                 <div className="field-error" style={{ marginLeft: 28, marginBottom: 6 }}>{errors.options[index].value.message}</div>
@@ -99,6 +109,16 @@ export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoad
             </div>
           ))}
           {errors.correctAnswerIndex && <div className="field-error">{errors.correctAnswerIndex.message}</div>}
+          {fields.length < 6 && (
+            <button
+              type="button"
+              className="btn btn-ghost"
+              style={{ marginTop: 4 }}
+              onClick={() => append({ value: '' })}
+            >
+              + Add option
+            </button>
+          )}
         </div>
       )}
 
