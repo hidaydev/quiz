@@ -1,0 +1,40 @@
+<h2>Which styling approach?</h2>
+<p class="subtitle">Pick the UI library / styling setup for the frontend</p>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>shadcn/ui + Tailwind</h3>
+      <p>Copy-paste component library built on Radix UI primitives. Clean, accessible, easy to customize. Best-in-class DX for React. Recommended.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Polished out of the box</li><li>Full control over components</li><li>Accessible by default</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Needs Tailwind setup</li><li>More initial setup</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>Ant Design</h3>
+      <p>Full-featured enterprise component library. Includes form, table, modal, steps — everything needed for this quiz app out of the box.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Rich component set</li><li>No custom styling needed</li><li>Good form handling</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Opinionated look</li><li>Heavy bundle size</li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>Tailwind CSS only</h3>
+      <p>Utility classes, no component library. Full freedom, minimal dependencies. More manual work for complex UI patterns.</p>
+      <div class="pros-cons">
+        <div class="pros"><h4>Pros</h4><ul><li>Lightweight</li><li>No component opinions</li><li>Fast iteration</li></ul></div>
+        <div class="cons"><h4>Cons</h4><ul><li>Build accessible components from scratch</li><li>More CSS to write</li></ul></div>
+      </div>
+    </div>
+  </div>
+</div>

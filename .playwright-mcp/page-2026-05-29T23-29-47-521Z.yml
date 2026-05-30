@@ -1,0 +1,108 @@
+- generic [ref=e44]:
+  - button "← Home" [ref=e45] [cursor=pointer]
+  - heading "Edit quiz" [level=1] [ref=e46]
+  - paragraph [ref=e47]: Update the details, then manage questions below.
+  - generic [ref=e48]:
+    - generic [ref=e49]:
+      - generic [ref=e50]: Title *
+      - textbox "e.g. JavaScript Fundamentals" [ref=e51]: JavaScript Basics edit
+    - generic [ref=e52]:
+      - generic [ref=e53]: Description
+      - textbox "What's this quiz about?" [ref=e54]: A tiny quiz on core JS
+    - generic [ref=e55]:
+      - generic [ref=e56]: Time limit (seconds — optional)
+      - spinbutton [ref=e57]: "61"
+    - generic [ref=e58] [cursor=pointer]:
+      - checkbox "Published Anyone with the quiz ID can play it." [checked] [ref=e59]
+      - generic [ref=e60]:
+        - generic [ref=e61]: Published
+        - text: Anyone with the quiz ID can play it.
+    - button "Save Quiz" [ref=e62] [cursor=pointer]
+  - generic [ref=e63]:
+    - generic [ref=e64]: "Share this ID with players:"
+    - generic [ref=e65]: "1"
+    - button "Copy" [ref=e66] [cursor=pointer]
+  - generic [ref=e67]: Questions (4)
+  - generic [ref=e68]:
+    - generic [ref=e70]:
+      - generic [ref=e71]: "01"
+      - generic [ref=e72]:
+        - generic [ref=e73]: Short answer
+        - generic [ref=e74]: What keyword declares a block-scoped variable introduced in ES6?
+        - generic [ref=e75]:
+          - text: "Accepted:"
+          - code [ref=e76]: let
+      - generic [ref=e77]:
+        - button "↑" [disabled] [ref=e78]
+        - button "↓" [ref=e79] [cursor=pointer]
+        - button "✕" [ref=e80] [cursor=pointer]
+    - generic [ref=e82]:
+      - generic [ref=e83]: "02"
+      - generic [ref=e84]:
+        - generic [ref=e85]: Multiple choice
+        - generic [ref=e86]: Which of the following is NOT a primitive type in JavaScript?
+        - list [ref=e87]:
+          - listitem [ref=e88]: string
+          - listitem [ref=e90]: number
+          - listitem [ref=e92]: boolean
+          - listitem [ref=e94]: array ✓
+      - generic [ref=e96]:
+        - button "↑" [ref=e97] [cursor=pointer]
+        - button "↓" [ref=e98] [cursor=pointer]
+        - button "✕" [ref=e99] [cursor=pointer]
+    - generic [ref=e101]:
+      - generic [ref=e102]: "03"
+      - generic [ref=e103]:
+        - generic [ref=e104]: Short answer
+        - generic [ref=e105]: "Write a function `sum(a,b)` that returns a + b."
+      - generic [ref=e106]:
+        - button "↑" [ref=e107] [cursor=pointer]
+        - button "↓" [ref=e108] [cursor=pointer]
+        - button "✕" [ref=e109] [cursor=pointer]
+    - generic [ref=e111]:
+      - generic [ref=e112]: "04"
+      - generic [ref=e113]:
+        - generic [ref=e114]: Multiple choice
+        - generic [ref=e115]: test question
+        - list [ref=e116]:
+          - listitem [ref=e117]: aaa ✓
+          - listitem [ref=e119]: bbb
+          - listitem [ref=e121]: ccc
+          - listitem [ref=e123]: dddd
+      - generic [ref=e125]:
+        - button "↑" [ref=e126] [cursor=pointer]
+        - button "↓" [disabled] [ref=e127]
+        - button "✕" [ref=e128] [cursor=pointer]
+  - generic [ref=e129]:
+    - generic [ref=e130]: Add a question
+    - generic [ref=e131]:
+      - generic [ref=e132]:
+        - generic [ref=e133]: Question type
+        - generic [ref=e134]:
+          - generic [ref=e135] [cursor=pointer]:
+            - radio "Multiple choice" [checked] [ref=e136]
+            - text: Multiple choice
+          - generic [ref=e137] [cursor=pointer]:
+            - radio "Short answer" [ref=e138]
+            - text: Short answer
+      - generic [ref=e139]:
+        - generic [ref=e140]: Prompt *
+        - textbox "e.g. What does typeof null evaluate to?" [ref=e141]
+      - generic [ref=e142]:
+        - generic [ref=e143]: Code snippet (optional — shown in a code block)
+        - textbox "console.log(0.1 + 0.2);" [ref=e144]
+      - generic [ref=e145]:
+        - generic [ref=e146]: Options (select the correct one)
+        - generic [ref=e148]:
+          - radio [ref=e149] [cursor=pointer]
+          - textbox "Option 1" [ref=e150]
+        - generic [ref=e152]:
+          - radio [ref=e153] [cursor=pointer]
+          - textbox "Option 2" [ref=e154]
+        - generic [ref=e156]:
+          - radio [ref=e157] [cursor=pointer]
+          - textbox "Option 3" [ref=e158]
+        - generic [ref=e160]:
+          - radio [ref=e161] [cursor=pointer]
+          - textbox "Option 4" [ref=e162]
+      - button "+ Add Question" [ref=e163] [cursor=pointer]
