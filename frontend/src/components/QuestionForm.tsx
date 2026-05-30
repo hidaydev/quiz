@@ -31,7 +31,14 @@ export default function QuestionForm({ onSubmit, onCancel, defaultValues, isLoad
 
   const handleFormSubmit = (values: QuestionFormValues) => {
     onSubmit(values)
-    if (!defaultValues) reset({ type: values.type, options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }] })
+    if (!defaultValues) reset({
+      type: values.type,
+      prompt: '',
+      codeSnippet: '',
+      options: [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
+      correctAnswerIndex: undefined,
+      correctAnswerText: '',
+    })
   }
 
   return (
