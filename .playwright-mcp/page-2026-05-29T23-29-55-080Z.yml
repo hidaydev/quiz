@@ -1,9 +1,0 @@
-- generic [ref=e3]:
-  - button "← Home" [ref=e4] [cursor=pointer]
-  - generic [ref=e5]:
-    - generic [ref=e6]: 🧠
-    - 'heading "Quiz #1" [level=2] [ref=e7]'
-    - generic [ref=e9]:
-      - generic [ref=e10]: —
-      - generic [ref=e11]: Questions
-    - button "Start Quiz" [ref=e12] [cursor=pointer]
