@@ -109,7 +109,8 @@ export default function BuilderPage() {
             isEditing={updateQuestion.isPending}
           />
 
-          <div className="card pad" style={{ marginTop: 24 }}>
+          <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '28px 0 0' }} />
+          <div className="card pad" style={{ marginTop: 20 }}>
             <div className="section-label" style={{ marginTop: 0 }}>Add a question</div>
             <QuestionForm onSubmit={handleAddQuestion} isLoading={addQuestion.isPending} />
           </div>
