@@ -43,10 +43,10 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
                   await onEdit(q.id, values)
                   setEditingId(null)
                 }}
+                onCancel={() => setEditingId(null)}
                 isLoading={isEditing}
                 submitLabel="Save changes"
               />
-              <button className="btn btn-ghost" style={{ marginTop: 8, fontSize: 13 }} onClick={() => setEditingId(null)}>Cancel</button>
             </>
           ) : (
             <div className="q-head">
