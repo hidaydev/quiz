@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useQuizzes } from '../queries'
 
 function Brand() {
@@ -13,7 +12,8 @@ function Brand() {
 
 export default function HomePage() {
   const { data: quizzes, isLoading, error } = useQuizzes()
-  const [tab, setTab] = useState<'play' | 'build'>('play')
+  const [searchParams, setSearchParams] = useSearchParams()
+  const tab = (searchParams.get('tab') === 'build' ? 'build' : 'play') as 'play' | 'build'
   const [quizId, setQuizId] = useState('')
   const [idError, setIdError] = useState('')
   const navigate = useNavigate()
@@ -36,8 +36,8 @@ export default function HomePage() {
       <div className="app-head">
         <Brand />
         <div className="tabs" role="tablist">
-          <button className={`tab${tab === 'play' ? ' active' : ''}`} onClick={() => setTab('play')}>Play</button>
-          <button className={`tab${tab === 'build' ? ' active' : ''}`} onClick={() => setTab('build')}>Build</button>
+          <button className={`tab${tab === 'play' ? ' active' : ''}`} onClick={() => setSearchParams({ tab: 'play' })}>Play</button>
+          <button className={`tab${tab === 'build' ? ' active' : ''}`} onClick={() => setSearchParams({ tab: 'build' })}>Build</button>
         </div>
       </div>
 
