@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useState } from 'react'
 import type { Question } from '../types'
 import QuestionForm, { type QuestionFormValues } from './QuestionForm'
@@ -33,12 +34,10 @@ export default function QuestionList({
     <div>
       {questions.map((q, i) => (
         <div
-          className={[
+          className={clsx(
             'bg-white border border-slate-200 rounded-xl shadow-card px-5 py-4.5 mt-3',
-            editingId === q.id
-              ? '!border-blue-600 !shadow-focus'
-              : '',
-          ].join(' ')}
+            { '!border-blue-600 !shadow-focus': editingId === q.id },
+          )}
           key={q.id}
         >
           {editingId === q.id ? (
@@ -81,12 +80,12 @@ export default function QuestionList({
               </span>
               <div className="flex-1 min-w-0">
                 <span
-                  className={[
+                  className={clsx(
                     'text-[10.5px] font-semibold px-2 py-0.75 rounded-full inline-flex items-center gap-1.25 uppercase tracking-[.06em]',
                     q.type === 'short'
                       ? 'bg-violet-50 text-violet-700'
                       : 'bg-blue-50 text-blue-700',
-                  ].join(' ')}
+                  )}
                 >
                   {q.type === 'mcq' ? 'Multiple choice' : 'Short answer'}
                 </span>
@@ -103,20 +102,20 @@ export default function QuestionList({
                     {q.options.map((o, oi) => (
                       <li
                         key={oi}
-                        className={[
+                        className={clsx(
                           'flex items-center gap-2.25 text-sm px-2.75 py-1.75 rounded-lg',
                           oi === q.correctAnswer
                             ? 'bg-green-50 text-green-800 font-semibold'
                             : 'bg-slate-50 text-slate-500',
-                        ].join(' ')}
+                        )}
                       >
                         <span
-                          className={[
+                          className={clsx(
                             'w-4 h-4 rounded-full border-2 border-current shrink-0',
                             oi === q.correctAnswer
                               ? 'opacity-100'
                               : 'opacity-35',
-                          ].join(' ')}
+                          )}
                         ></span>
                         {o}
                         {oi === q.correctAnswer ? ' ✓' : ''}

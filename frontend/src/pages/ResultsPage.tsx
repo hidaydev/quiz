@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useLocation, useNavigate } from 'react-router-dom'
 import type { SubmitResult } from '../types'
 
@@ -76,12 +77,12 @@ export default function ResultsPage() {
         {result.details.map((d, i) => (
           <div
             key={d.questionId}
-            className={[
+            className={clsx(
               'flex items-center justify-between px-4.5 py-3.75 rounded-lg text-[14.5px] font-medium border gap-3.5',
               d.correct
                 ? 'bg-green-50 text-green-800 border-green-200'
                 : 'bg-red-50 text-red-800 border-red-200',
-            ].join(' ')}
+            )}
           >
             <div className="flex flex-col gap-0.75 min-w-0">
               <span className="font-semibold">Question {i + 1}</span>

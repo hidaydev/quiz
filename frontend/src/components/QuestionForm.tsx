@@ -1,3 +1,4 @@
+import clsx from 'clsx'
 import { useForm, useFieldArray } from 'react-hook-form'
 
 export interface QuestionFormValues {
@@ -63,12 +64,12 @@ export default function QuestionForm({
         <label className="font-semibold text-sm">Question type</label>
         <div className="flex gap-2.5">
           <label
-            className={[
+            className={clsx(
               'flex flex-1 items-center gap-[9px] px-3.5 py-3 border-[1.5px] rounded-lg cursor-pointer font-medium text-sm transition-all duration-[120ms]',
               type === 'mcq'
                 ? 'border-blue-600 bg-blue-50 text-blue-700 font-semibold'
                 : 'border-slate-200 hover:border-slate-300',
-            ].join(' ')}
+            )}
           >
             <input
               type="radio"
@@ -79,12 +80,12 @@ export default function QuestionForm({
             Multiple choice
           </label>
           <label
-            className={[
+            className={clsx(
               'flex flex-1 items-center gap-[9px] px-3.5 py-3 border-[1.5px] rounded-lg cursor-pointer font-medium text-sm transition-all duration-[120ms]',
               type === 'short'
                 ? 'border-blue-600 bg-blue-50 text-blue-700 font-semibold'
                 : 'border-slate-200 hover:border-slate-300',
-            ].join(' ')}
+            )}
           >
             <input
               type="radio"
