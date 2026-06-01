@@ -66,14 +66,14 @@ export default function QuestionForm({
             className={[
               'flex flex-1 items-center gap-[9px] px-3.5 py-3 border-[1.5px] rounded-lg cursor-pointer font-medium text-sm transition-all duration-[120ms]',
               type === 'mcq'
-                ? 'border-[#2563eb] bg-[#eff6ff] text-[#1d4ed8] font-semibold'
-                : 'border-[#e2e8f0] hover:border-[#cbd5e1]',
+                ? 'border-blue-600 bg-blue-50 text-blue-700 font-semibold'
+                : 'border-slate-200 hover:border-slate-300',
             ].join(' ')}
           >
             <input
               type="radio"
               value="mcq"
-              className="accent-[#2563eb] shrink-0"
+              className="accent-blue-600 shrink-0"
               {...register('type')}
             />
             Multiple choice
@@ -82,14 +82,14 @@ export default function QuestionForm({
             className={[
               'flex flex-1 items-center gap-[9px] px-3.5 py-3 border-[1.5px] rounded-lg cursor-pointer font-medium text-sm transition-all duration-[120ms]',
               type === 'short'
-                ? 'border-[#2563eb] bg-[#eff6ff] text-[#1d4ed8] font-semibold'
-                : 'border-[#e2e8f0] hover:border-[#cbd5e1]',
+                ? 'border-blue-600 bg-blue-50 text-blue-700 font-semibold'
+                : 'border-slate-200 hover:border-slate-300',
             ].join(' ')}
           >
             <input
               type="radio"
               value="short"
-              className="accent-[#2563eb] shrink-0"
+              className="accent-blue-600 shrink-0"
               {...register('type')}
             />
             Short answer
@@ -99,17 +99,17 @@ export default function QuestionForm({
 
       <div className="flex flex-col gap-1.5 mb-4.5">
         <label className="font-semibold text-sm">
-          Prompt <span className="text-[#2563eb]">*</span>
+          Prompt <span className="text-blue-600">*</span>
         </label>
         <textarea
-          className="font-[inherit] px-[13px] py-2.5 border border-[#e2e8f0] rounded-[8px] bg-white text-[#0f172a] w-full outline-none resize-y min-h-[88px] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_#eff6ff]"
+          className="font-[inherit] px-[13px] py-2.5 border border-slate-200 rounded-[8px] bg-white text-slate-900 w-full outline-none resize-y min-h-[88px] focus:border-blue-600 focus:shadow-focus"
           placeholder="e.g. What does typeof null evaluate to?"
           {...register('prompt', {
             required: 'A question prompt is required.',
           })}
         />
         {errors.prompt && (
-          <div className="text-[#dc2626] text-[13px] font-medium">
+          <div className="text-red-600 text-[13px] font-medium">
             {errors.prompt.message}
           </div>
         )}
@@ -118,12 +118,12 @@ export default function QuestionForm({
       <div className="flex flex-col gap-1.5 mb-4.5">
         <label className="font-semibold text-sm">
           Code snippet{' '}
-          <span className="text-[#94a3b8] text-[12.5px]">
+          <span className="text-slate-400 text-[12.5px]">
             (optional — shown in a code block)
           </span>
         </label>
         <textarea
-          className="font-mono font-[inherit] px-[13px] py-2.5 border border-[#e2e8f0] rounded-[8px] bg-white text-[#0f172a] w-full outline-none resize-y min-h-[70px] focus:border-[#2563eb] focus:shadow-[0_0_0_3px_#eff6ff]"
+          className="font-mono font-[inherit] px-[13px] py-2.5 border border-slate-200 rounded-[8px] bg-white text-slate-900 w-full outline-none resize-y min-h-[70px] focus:border-blue-600 focus:shadow-focus"
           placeholder="console.log(0.1 + 0.2);"
           {...register('codeSnippet')}
         />
@@ -133,7 +133,7 @@ export default function QuestionForm({
         <div className="flex flex-col gap-1.5 mb-4.5">
           <label className="font-semibold text-sm">
             Options{' '}
-            <span className="text-[#94a3b8] text-[12.5px]">
+            <span className="text-slate-400 text-[12.5px]">
               (select the correct one)
             </span>
           </label>
@@ -146,7 +146,7 @@ export default function QuestionForm({
                   style={{
                     width: 18,
                     height: 18,
-                    accentColor: '#2563eb',
+                    accentColor: 'var(--color-blue-600)',
                     flexShrink: 0,
                     cursor: 'pointer',
                   }}
@@ -157,7 +157,7 @@ export default function QuestionForm({
                 />
                 <input
                   type="text"
-                  className="font-[inherit] px-[13px] py-2.5 border border-[#e2e8f0] rounded-[8px] bg-white text-[#0f172a] w-full outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_#eff6ff]"
+                  className="font-[inherit] px-[13px] py-2.5 border border-slate-200 rounded-[8px] bg-white text-slate-900 w-full outline-none focus:border-blue-600 focus:shadow-focus"
                   placeholder={`Option ${index + 1}`}
                   {...register(`options.${index}.value`, {
                     required: 'Option text is required',
@@ -166,7 +166,7 @@ export default function QuestionForm({
                 {fields.length > 2 && (
                   <button
                     type="button"
-                    className="w-8 h-8 rounded-[7px] border border-[#e2e8f0] bg-white text-[#64748b] cursor-pointer grid place-items-center text-sm transition-all duration-[120ms] hover:bg-[#fef2f2] hover:text-[#991b1b] hover:border-[#fecaca]"
+                    className="w-8 h-8 rounded-[7px] border border-slate-200 bg-white text-slate-500 cursor-pointer grid place-items-center text-sm transition-all duration-[120ms] hover:bg-red-50 hover:text-red-800 hover:border-red-200"
                     onClick={() => {
                       const current = getValues('correctAnswerIndex')
                       remove(index)
@@ -188,21 +188,21 @@ export default function QuestionForm({
                 )}
               </div>
               {errors.options?.[index]?.value && (
-                <div className="text-[#dc2626] text-[13px] font-medium ml-7 mb-1.5">
+                <div className="text-red-600 text-[13px] font-medium ml-7 mb-1.5">
                   {errors.options[index].value.message}
                 </div>
               )}
             </div>
           ))}
           {errors.correctAnswerIndex && (
-            <div className="text-[#dc2626] text-[13px] font-medium">
+            <div className="text-red-600 text-[13px] font-medium">
               {errors.correctAnswerIndex.message}
             </div>
           )}
           {fields.length < 6 && (
             <button
               type="button"
-              className="mt-1 font-semibold text-sm border border-[#e2e8f0] cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-[#0f172a] hover:bg-[#f8fafc] hover:border-[#cbd5e1]"
+              className="mt-1 font-semibold text-sm border border-slate-200 cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300"
               onClick={() => append({ value: '' })}
             >
               + Add option
@@ -215,20 +215,20 @@ export default function QuestionForm({
         <div className="flex flex-col gap-1.5 mb-4.5">
           <label className="font-semibold text-sm">
             Accepted answer{' '}
-            <span className="text-[#94a3b8] text-[12.5px]">
+            <span className="text-slate-400 text-[12.5px]">
               (case-insensitive)
             </span>
           </label>
           <input
             type="text"
-            className="font-[inherit] px-[13px] py-2.5 border border-[#e2e8f0] rounded-[8px] bg-white text-[#0f172a] w-full outline-none focus:border-[#2563eb] focus:shadow-[0_0_0_3px_#eff6ff]"
+            className="font-[inherit] px-[13px] py-2.5 border border-slate-200 rounded-[8px] bg-white text-slate-900 w-full outline-none focus:border-blue-600 focus:shadow-focus"
             placeholder="e.g. JSON.parse"
             {...register('correctAnswerText', {
               required: 'Provide the accepted answer.',
             })}
           />
           {errors.correctAnswerText && (
-            <div className="text-[#dc2626] text-[13px] font-medium">
+            <div className="text-red-600 text-[13px] font-medium">
               {errors.correctAnswerText.message}
             </div>
           )}
@@ -238,7 +238,7 @@ export default function QuestionForm({
       <div className="flex gap-2.5">
         <button
           type="submit"
-          className="font-semibold text-sm border border-transparent cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-[#2563eb] text-white disabled:opacity-55 disabled:cursor-not-allowed hover:not-disabled:bg-[#1d4ed8]"
+          className="font-semibold text-sm border border-transparent cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-blue-600 text-white disabled:opacity-55 disabled:cursor-not-allowed hover:not-disabled:bg-blue-700"
           disabled={isLoading}
         >
           {isLoading ? 'Saving…' : (submitLabel ?? '+ Add Question')}
@@ -246,7 +246,7 @@ export default function QuestionForm({
         {onCancel && (
           <button
             type="button"
-            className="font-semibold text-sm border border-[#e2e8f0] cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-[#0f172a] hover:bg-[#f8fafc] hover:border-[#cbd5e1]"
+            className="font-semibold text-sm border border-slate-200 cursor-pointer px-[18px] py-2.5 rounded-[8px] whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300"
             onClick={onCancel}
           >
             Cancel
