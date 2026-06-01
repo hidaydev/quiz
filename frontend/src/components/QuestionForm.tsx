@@ -18,13 +18,13 @@ interface Props {
   submitLabel?: string
 }
 
-export default function QuestionForm({
+const QuestionForm = ({
   onSubmit,
   onCancel,
   defaultValues,
   isLoading,
   submitLabel,
-}: Props) {
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -257,3 +257,5 @@ export default function QuestionForm({
     </form>
   )
 }
+
+export default QuestionForm

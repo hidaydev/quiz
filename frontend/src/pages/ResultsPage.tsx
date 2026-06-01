@@ -8,7 +8,7 @@ interface LocationState {
   antiCheat?: { tabSwitches: number; pastes: number }
 }
 
-export default function ResultsPage() {
+const ResultsPage = () => {
   const { state } = useLocation()
   const navigate = useNavigate()
 
@@ -109,3 +109,5 @@ export default function ResultsPage() {
     </div>
   )
 }
+
+export default ResultsPage

@@ -11,11 +11,11 @@ interface Props {
   isLoading?: boolean
 }
 
-export default function QuizForm({
+const QuizForm = ({
   defaultValues,
   onSubmit,
   isLoading,
-}: Props) {
+}: Props) => {
   const {
     register,
     handleSubmit,
@@ -67,3 +67,5 @@ export default function QuizForm({
     </form>
   )
 }
+
+export default QuizForm

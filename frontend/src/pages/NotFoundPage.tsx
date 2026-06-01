@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 
-export default function NotFoundPage() {
+const NotFoundPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center gap-4">
       <h1 className="text-2xl font-bold">Page Not Found</h1>
@@ -13,3 +13,5 @@ export default function NotFoundPage() {
     </div>
   )
 }
+
+export default NotFoundPage

@@ -10,12 +10,12 @@ interface Props {
   isEditing?: boolean
 }
 
-export default function QuestionList({
+const QuestionList = ({
   questions,
   onDelete,
   onEdit,
   isEditing,
-}: Props) {
+}: Props) => {
   const [editingId, setEditingId] = useState<number | null>(null)
 
   if (questions.length === 0) {
@@ -155,3 +155,5 @@ export default function QuestionList({
     </div>
   )
 }
+
+export default QuestionList

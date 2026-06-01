@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useQuizzes } from '../queries'
+import QuizCard from '../components/QuizCard'
 
-function Brand() {
+const Brand = () => {
   return (
     <Link
       to="/play"
@@ -16,7 +17,7 @@ function Brand() {
   )
 }
 
-export default function HomePage() {
+const HomePage = () => {
   const { data: quizzes, isLoading, error } = useQuizzes()
   const location = useLocation()
   const tab = location.pathname === '/build' ? 'build' : 'play'
@@ -119,30 +120,18 @@ export default function HomePage() {
           {published.length > 0 && (
             <div className="flex flex-col gap-3">
               {published.map((q) => (
-                <div
-                  className="bg-white border border-slate-200 rounded-xl shadow-card px-5 py-[18px] flex items-center justify-between gap-4 transition-[box-shadow,border-color] duration-[120ms] hover:shadow-card-hover hover:border-slate-300"
+                <QuizCard
                   key={q.id}
-                >
-                  <div className="min-w-0">
-                    <div className="font-semibold text-base">{q.title}</div>
-                    <div className="text-slate-500 text-sm mt-0.5">
-                      {q.description}
-                    </div>
-                    <div className="flex items-center gap-2.5 mt-1.5 flex-wrap">
-                      <span className="text-blue-600 text-[12px] font-mono font-semibold">
-                        Quiz ID: {q.id}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
+                  quiz={q}
+                  action={
                     <button
                       className="font-semibold text-sm border border-transparent cursor-pointer px-[18px] py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-blue-600 text-white hover:bg-blue-700"
                       onClick={() => navigate(`/quiz/${q.id}`)}
                     >
                       Play →
                     </button>
-                  </div>
-                </div>
+                  }
+                />
               ))}
             </div>
           )}
@@ -185,30 +174,18 @@ export default function HomePage() {
           {quizzes && quizzes.length > 0 && (
             <div className="flex flex-col gap-3">
               {quizzes.map((q) => (
-                <div
-                  className="bg-white border border-slate-200 rounded-xl shadow-card px-5 py-[18px] flex items-center justify-between gap-4 transition-[box-shadow,border-color] duration-[120ms] hover:shadow-card-hover hover:border-slate-300"
+                <QuizCard
                   key={q.id}
-                >
-                  <div className="min-w-0">
-                    <div className="font-semibold text-base">{q.title}</div>
-                    <div className="text-slate-500 text-sm mt-0.5">
-                      {q.description}
-                    </div>
-                    <div className="flex items-center gap-2.5 mt-1.5 flex-wrap">
-                      <span className="text-blue-600 text-[12px] font-mono font-semibold">
-                        Quiz ID: {q.id}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
+                  quiz={q}
+                  action={
                     <Link
                       to={`/builder/${q.id}`}
                       className="font-semibold text-sm border border-slate-200 cursor-pointer px-[18px] py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-slate-900 hover:bg-slate-50 hover:border-slate-300"
                     >
                       Edit
                     </Link>
-                  </div>
-                </div>
+                  }
+                />
               ))}
             </div>
           )}
@@ -217,3 +194,5 @@ export default function HomePage() {
     </div>
   )
 }
+
+export default HomePage

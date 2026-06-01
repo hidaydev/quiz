@@ -7,7 +7,7 @@ interface Props {
   onChange: (value: string) => void
 }
 
-export default function QuestionCard({ question, value, onChange }: Props) {
+const QuestionCard = ({ question, value, onChange }: Props) => {
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-card p-7.5">
       <div className="text-[21px] font-semibold leading-[1.35] tracking-[-0.01em]">
@@ -65,3 +65,5 @@ export default function QuestionCard({ question, value, onChange }: Props) {
     </div>
   )
 }
+
+export default QuestionCard

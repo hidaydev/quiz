@@ -15,7 +15,7 @@ import {
   useDeleteQuestion,
 } from '../queries'
 
-export default function BuilderPage() {
+const BuilderPage = () => {
   const { id } = useParams()
   const quizId = id ? Number(id) : 0
   const navigate = useNavigate()
@@ -161,3 +161,5 @@ export default function BuilderPage() {
     </div>
   )
 }
+
+export default BuilderPage

@@ -7,7 +7,7 @@ import {
   NotFoundPage,
 } from './pages'
 
-export default function App() {
+const App = () => {
   return (
     <BrowserRouter>
       <Routes>
@@ -23,3 +23,5 @@ export default function App() {
     </BrowserRouter>
   )
 }
+
+export default App

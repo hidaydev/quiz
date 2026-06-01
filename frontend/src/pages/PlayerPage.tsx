@@ -11,7 +11,7 @@ import { useAntiCheat } from '../hooks'
 import { QuestionCard } from '../components'
 import type { Attempt } from '../types'
 
-export default function PlayerPage() {
+const PlayerPage = () => {
   const { id } = useParams()
   const navigate = useNavigate()
   const quizId = Number(id)
@@ -192,3 +192,5 @@ export default function PlayerPage() {
     </div>
   )
 }
+
+export default PlayerPage
