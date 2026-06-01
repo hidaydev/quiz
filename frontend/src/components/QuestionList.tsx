@@ -9,14 +9,21 @@ interface Props {
   isEditing?: boolean
 }
 
-export default function QuestionList({ questions, onDelete, onEdit, isEditing }: Props) {
+export default function QuestionList({
+  questions,
+  onDelete,
+  onEdit,
+  isEditing,
+}: Props) {
   const [editingId, setEditingId] = useState<number | null>(null)
 
   if (questions.length === 0) {
     return (
       <div className="text-center py-12 px-6 text-[#64748b] border border-dashed border-[#cbd5e1] rounded-xl bg-white">
         <div className="text-3xl mb-2">📝</div>
-        <div className="font-semibold text-[#0f172a] mb-1">No questions yet</div>
+        <div className="font-semibold text-[#0f172a] mb-1">
+          No questions yet
+        </div>
         <div>Add your first question using the form below.</div>
       </div>
     )
@@ -28,22 +35,35 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
         <div
           className={[
             'bg-white border border-[#e2e8f0] rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04),0_1px_3px_rgba(15,23,42,.07)] px-5 py-4.5 mt-3',
-            editingId === q.id ? '!border-[#2563eb] !shadow-[0_0_0_3px_#eff6ff]' : '',
+            editingId === q.id
+              ? '!border-[#2563eb] !shadow-[0_0_0_3px_#eff6ff]'
+              : '',
           ].join(' ')}
           key={q.id}
         >
           {editingId === q.id ? (
             <>
-              <div className="text-[13px] font-semibold text-[#64748b] uppercase tracking-[.07em] mt-0 mb-3.5">Editing question {i + 1}</div>
+              <div className="text-[13px] font-semibold text-[#64748b] uppercase tracking-[.07em] mt-0 mb-3.5">
+                Editing question {i + 1}
+              </div>
               <QuestionForm
                 key={q.id}
                 defaultValues={{
                   type: q.type as 'mcq' | 'short',
                   prompt: q.prompt,
                   codeSnippet: q.codeSnippet,
-                  options: q.options?.map((o) => ({ value: o })) ?? [{ value: '' }, { value: '' }, { value: '' }, { value: '' }],
-                  correctAnswerIndex: q.type === 'mcq' ? q.correctAnswer as number : undefined,
-                  correctAnswerText: q.type === 'short' ? String(q.correctAnswer ?? '') : undefined,
+                  options: q.options?.map((o) => ({ value: o })) ?? [
+                    { value: '' },
+                    { value: '' },
+                    { value: '' },
+                    { value: '' },
+                  ],
+                  correctAnswerIndex:
+                    q.type === 'mcq' ? (q.correctAnswer as number) : undefined,
+                  correctAnswerText:
+                    q.type === 'short'
+                      ? String(q.correctAnswer ?? '')
+                      : undefined,
                 }}
                 onSubmit={async (values) => {
                   await onEdit(q.id, values)
@@ -56,7 +76,9 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
             </>
           ) : (
             <div className="flex items-start gap-3">
-              <span className="font-mono text-[#94a3b8] text-[13px] font-semibold pt-0.5 shrink-0">{String(i + 1).padStart(2, '0')}</span>
+              <span className="font-mono text-[#94a3b8] text-[13px] font-semibold pt-0.5 shrink-0">
+                {String(i + 1).padStart(2, '0')}
+              </span>
               <div className="flex-1 min-w-0">
                 <span
                   className={[
@@ -68,7 +90,9 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
                 >
                   {q.type === 'mcq' ? 'Multiple choice' : 'Short answer'}
                 </span>
-                <div className="font-semibold text-[15.5px] leading-[1.4] mt-2">{q.prompt}</div>
+                <div className="font-semibold text-[15.5px] leading-[1.4] mt-2">
+                  {q.prompt}
+                </div>
                 {q.codeSnippet && (
                   <pre className="font-mono text-[13.5px] leading-[1.6] bg-[#0f172a] text-[#e2e8f0] rounded-lg px-4 py-3.5 overflow-x-auto mt-3 whitespace-pre">
                     {q.codeSnippet}
@@ -89,17 +113,23 @@ export default function QuestionList({ questions, onDelete, onEdit, isEditing }:
                         <span
                           className={[
                             'w-4 h-4 rounded-full border-2 border-current shrink-0',
-                            oi === q.correctAnswer ? 'opacity-100' : 'opacity-35',
+                            oi === q.correctAnswer
+                              ? 'opacity-100'
+                              : 'opacity-35',
                           ].join(' ')}
                         ></span>
-                        {o}{oi === q.correctAnswer ? ' ✓' : ''}
+                        {o}
+                        {oi === q.correctAnswer ? ' ✓' : ''}
                       </li>
                     ))}
                   </ul>
                 )}
                 {q.type === 'short' && (
                   <div className="mt-2.5 text-sm text-[#64748b]">
-                    Accepted answer: <b className="font-mono font-semibold bg-[#f0fdf4] text-[#166534] px-2 py-px rounded">{String(q.correctAnswer)}</b>
+                    Accepted answer:{' '}
+                    <b className="font-mono font-semibold bg-[#f0fdf4] text-[#166534] px-2 py-px rounded">
+                      {String(q.correctAnswer)}
+                    </b>
                   </div>
                 )}
               </div>

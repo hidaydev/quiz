@@ -31,11 +31,11 @@ Open [http://localhost:5173](http://localhost:5173) in your browser.
 
 ## Environment Variables
 
-| Variable | Description | Default |
-|---|---|---|
-| `VITE_API_URL` | Backend base URL | `http://localhost:4000` |
-| `VITE_API_TOKEN` | Bearer token for API auth | `dev-token` |
-| `VITE_API_TIMEOUT` | Axios timeout in ms | `10000` |
+| Variable           | Description               | Default                 |
+| ------------------ | ------------------------- | ----------------------- |
+| `VITE_API_URL`     | Backend base URL          | `http://localhost:4000` |
+| `VITE_API_TOKEN`   | Bearer token for API auth | `dev-token`             |
+| `VITE_API_TIMEOUT` | Axios timeout in ms       | `10000`                 |
 
 ## Architecture Decisions
 
@@ -79,6 +79,7 @@ A `code_snippet` column was added to the `questions` table as a minor additive c
 Multiple players can take the same quiz simultaneously without interference. Each `POST /attempts` creates an isolated row in the database — answers and scoring are scoped to the individual `attempt_id`. There is no shared state between concurrent players.
 
 The backend does not associate attempts with a user identity (no auth / session). This means:
+
 - Replay prevention is not enforced — a player can start fresh attempts indefinitely.
 - There is no leaderboard or "your best score" concept.
 - These are backend concerns outside the scope of this frontend assignment.

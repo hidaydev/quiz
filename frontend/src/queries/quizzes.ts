@@ -1,5 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import { queryKeys, fetchQuizzes, fetchQuiz, createQuiz, updateQuiz } from '../api'
+import {
+  queryKeys,
+  fetchQuizzes,
+  fetchQuiz,
+  createQuiz,
+  updateQuiz,
+} from '../api'
 
 export const useQuizzes = () =>
   useQuery({ queryKey: queryKeys.quizzes, queryFn: fetchQuizzes })

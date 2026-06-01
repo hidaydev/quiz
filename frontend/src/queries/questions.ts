@@ -13,8 +13,13 @@ export const useAddQuestion = (quizId: number) => {
 export const useUpdateQuestion = (quizId: number) => {
   const qc = useQueryClient()
   return useMutation({
-    mutationFn: ({ id, payload }: { id: number; payload: Parameters<typeof updateQuestion>[1] }) =>
-      updateQuestion(id, payload),
+    mutationFn: ({
+      id,
+      payload,
+    }: {
+      id: number
+      payload: Parameters<typeof updateQuestion>[1]
+    }) => updateQuestion(id, payload),
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.quiz(quizId) }),
   })
 }

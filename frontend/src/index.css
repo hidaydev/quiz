@@ -1,8 +1,14 @@
 @import 'tailwindcss';
 
 @layer base {
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; }
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
   body {
     background: #f8fafc;
     color: #0f172a;
@@ -11,6 +17,10 @@
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-  button { font-family: inherit; }
-  a { color: inherit; }
+  button {
+    font-family: inherit;
+  }
+  a {
+    color: inherit;
+  }
 }
