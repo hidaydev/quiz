@@ -72,24 +72,24 @@ export default function BuilderPage() {
   }
 
   return (
-    <div className="page">
-      <button className="back" onClick={() => navigate('/')}>← Home</button>
-      <h1 className="page-title">{quizId ? 'Edit quiz' : 'Create quiz'}</h1>
-      <p className="page-sub">
+    <div className="max-w-[680px] mx-auto px-6 pt-10 pb-24">
+      <button className="inline-flex items-center gap-1.5 text-[#64748b] text-sm font-medium mb-5 cursor-pointer bg-transparent border-none p-0 hover:text-[#0f172a]" onClick={() => navigate('/')}>← Home</button>
+      <h1 className="text-[26px] font-bold tracking-[-0.02em] m-0 mb-1">{quizId ? 'Edit quiz' : 'Create quiz'}</h1>
+      <p className="text-[#64748b] m-0 mb-[26px] text-[15px]">
         {quizId
           ? 'Update the details, then manage questions below.'
           : "Start with the basics. You'll add questions after saving."}
       </p>
       {quizId > 0 && (
-        <div className="id-banner" style={{ marginBottom: 20 }}>
+        <div className="flex items-center gap-3 bg-[#eff6ff] border border-[#bfdbfe] text-[#1d4ed8] rounded-lg px-4 py-3 text-sm flex-wrap mb-5">
           <span>Quiz ID</span>
-          <span className="idnum">{quizId}</span>
-          <button className="btn btn-ghost copy-btn" style={{ fontSize: 13, padding: '6px 12px' }} onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
+          <span className="font-mono font-bold bg-white border border-[#bfdbfe] rounded-md px-2 py-px">{quizId}</span>
+          <button className="font-semibold text-[13px] border border-[#e2e8f0] cursor-pointer px-3 py-1.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-[#0f172a] hover:bg-[#f8fafc] hover:border-[#cbd5e1] ml-auto" onClick={() => navigator.clipboard?.writeText(String(quizId))}>Copy</button>
         </div>
       )}
 
       {quizId > 0 && isLoading ? (
-        <p className="muted">Loading…</p>
+        <p className="text-[#64748b]">Loading…</p>
       ) : (
         <QuizForm
           key={quiz?.id ?? 'new'}
@@ -101,7 +101,7 @@ export default function BuilderPage() {
 
       {quizId > 0 && (
         <>
-          <div className="section-label">Questions ({quiz?.questions?.length ?? 0})</div>
+          <div className="text-[13px] font-semibold text-[#64748b] uppercase tracking-[.07em] my-[30px]">Questions ({quiz?.questions?.length ?? 0})</div>
           <QuestionList
             questions={quiz?.questions ?? []}
             onDelete={(id) => deleteQuestion.mutate(id)}
@@ -109,9 +109,9 @@ export default function BuilderPage() {
             isEditing={updateQuestion.isPending}
           />
 
-          <hr style={{ border: 'none', borderTop: '1px solid var(--border)', margin: '28px 0 0' }} />
-          <div className="card pad" style={{ marginTop: 20 }}>
-            <div className="section-label" style={{ marginTop: 0 }}>Add a question</div>
+          <hr className="border-0 border-t border-[#e2e8f0] mt-7" />
+          <div className="bg-white border border-[#e2e8f0] rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04),0_1px_3px_rgba(15,23,42,.07)] p-[22px] mt-5">
+            <div className="text-[13px] font-semibold text-[#64748b] uppercase tracking-[.07em] mt-0 mb-[14px]">Add a question</div>
             <QuestionForm onSubmit={handleAddQuestion} isLoading={addQuestion.isPending} />
           </div>
         </>

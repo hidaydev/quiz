@@ -14,9 +14,9 @@ export default function ResultsPage() {
 
   if (!state) {
     return (
-      <div className="page">
-        <p className="muted">No results found.</p>
-        <button className="btn btn-ghost" style={{ marginTop: 12 }} onClick={() => navigate('/')}>
+      <div className="max-w-[680px] mx-auto px-6 pt-10 pb-24">
+        <p className="text-[#64748b]">No results found.</p>
+        <button className="font-semibold text-sm border border-[#e2e8f0] cursor-pointer px-4.5 py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-white text-[#0f172a] hover:bg-[#f8fafc] hover:border-[#cbd5e1] mt-3" onClick={() => navigate('/')}>
           Back to Home
         </button>
       </div>
@@ -28,19 +28,19 @@ export default function ResultsPage() {
   const percentage = Math.round((result.score / resolvedTotal) * 100)
 
   return (
-    <div className="page">
-      <button className="back" onClick={() => navigate('/')}>← Home</button>
-      <div className="card score-card" style={{ marginBottom: 32 }}>
-        <div className="score-big">
-          {result.score}<span className="denom"> / {resolvedTotal}</span>
+    <div className="max-w-[680px] mx-auto px-6 pt-10 pb-24">
+      <button className="inline-flex items-center gap-1.5 text-[#64748b] text-sm font-medium mb-5 cursor-pointer bg-transparent border-none p-0 hover:text-[#0f172a]" onClick={() => navigate('/')}>← Home</button>
+      <div className="bg-white border border-[#e2e8f0] rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04),0_1px_3px_rgba(15,23,42,.07)] p-9.5 text-center mb-8">
+        <div className="font-extrabold text-6xl leading-none tracking-[-0.03em] tabular-nums">
+          {result.score}<span className="text-[#94a3b8] font-bold"> / {resolvedTotal}</span>
         </div>
-        <div className="score-pct">
+        <div className="text-[#64748b] font-medium text-base mt-2">
           {percentage}% correct — {percentage >= 80 ? 'Excellent work!' : percentage >= 50 ? 'Nice effort.' : 'Keep practicing!'}
         </div>
       </div>
 
       {antiCheat && (antiCheat.tabSwitches > 0 || antiCheat.pastes > 0) && (
-        <div className="notice-error" style={{ marginBottom: 24 }}>
+        <div className="bg-[#fef2f2] border border-[#fecaca] text-[#991b1b] rounded-lg px-4 py-3.5 text-sm font-medium flex gap-2.5 items-start mb-6">
           <span>⚠</span>
           <span>
             {[
@@ -51,22 +51,22 @@ export default function ResultsPage() {
         </div>
       )}
 
-      <div className="section-label">Question breakdown</div>
-      <div className="breakdown">
+      <div className="text-[13px] font-semibold text-[#64748b] uppercase tracking-[.07em] my-7.5">Question breakdown</div>
+      <div className="flex flex-col gap-2.5 mt-2">
         {result.details.map((d, i) => (
-          <div key={d.questionId} className={`bd-row ${d.correct ? 'correct' : 'incorrect'}`}>
-            <div className="bd-q">
-              <span className="bd-prompt">Question {i + 1}</span>
+          <div key={d.questionId} className={['flex items-center justify-between px-4.5 py-3.75 rounded-lg text-[14.5px] font-medium border gap-3.5', d.correct ? 'bg-[#f0fdf4] text-[#166534] border-[#bbf7d0]' : 'bg-[#fef2f2] text-[#991b1b] border-[#fecaca]'].join(' ')}>
+            <div className="flex flex-col gap-0.75 min-w-0">
+              <span className="font-semibold">Question {i + 1}</span>
               {!d.correct && d.expected !== undefined && (
-                <span className="expected">Expected: <code>{d.expected}</code></span>
+                <span className="text-[13px] opacity-85 font-normal">Expected: <code className="font-mono font-semibold">{d.expected}</code></span>
               )}
             </div>
-            <span className="bd-status">{d.correct ? '✓ Correct' : '✗ Incorrect'}</span>
+            <span className="font-bold text-[13.5px] whitespace-nowrap">{d.correct ? '✓ Correct' : '✗ Incorrect'}</span>
           </div>
         ))}
       </div>
 
-      <button className="btn btn-primary btn-block" style={{ marginTop: 26 }} onClick={() => navigate('/')}>
+      <button className="font-semibold text-[15px] border border-transparent cursor-pointer w-full py-3.25 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-[#2563eb] text-white hover:bg-[#1d4ed8] mt-6.5" onClick={() => navigate('/')}>
         Back to Home
       </button>
     </div>

@@ -64,32 +64,32 @@ export default function PlayerPage() {
 
   if (!attempt) {
     return (
-      <div className="page">
-        <button className="back" onClick={() => navigate('/play')}>← Home</button>
-        <div className="card start-card">
-          <div className="start-emoji">🧠</div>
+      <div className="max-w-[680px] mx-auto px-6 pt-10 pb-24">
+        <button className="inline-flex items-center gap-1.5 text-[#64748b] text-sm font-medium mb-5 cursor-pointer bg-transparent border-none p-0 hover:text-[#0f172a]" onClick={() => navigate('/play')}>← Home</button>
+        <div className="bg-white border border-[#e2e8f0] rounded-xl shadow-[0_1px_2px_rgba(15,23,42,.04),0_1px_3px_rgba(15,23,42,.07)] p-10 text-center">
+          <div className="text-[40px] mb-3.5">🧠</div>
           <h2>{quizLoading ? `Quiz #${quizId}` : (quiz?.title ?? `Quiz #${quizId}`)}</h2>
-          {quiz?.description && <p className="muted" style={{ marginBottom: 8 }}>{quiz.description}</p>}
-          {quizFetching && <p className="muted" style={{ marginBottom: 12 }}>Loading quiz…</p>}
+          {quiz?.description && <p className="text-[#64748b] mb-2">{quiz.description}</p>}
+          {quizFetching && <p className="text-[#64748b] mb-3">Loading quiz…</p>}
           {quizNotFound && (
-            <div className="notice-error" style={{ marginBottom: 16, textAlign: 'left' }}>
+            <div className="bg-[#fef2f2] border border-[#fecaca] text-[#991b1b] rounded-lg px-4 py-3.5 text-sm font-medium flex gap-2.5 items-start mb-4 text-left">
               <span>⚠</span>
               <span>Quiz not found. Please check the ID and try again.</span>
             </div>
           )}
           {startError && (
-            <div className="notice-error" style={{ marginBottom: 16, textAlign: 'left' }}>
+            <div className="bg-[#fef2f2] border border-[#fecaca] text-[#991b1b] rounded-lg px-4 py-3.5 text-sm font-medium flex gap-2.5 items-start mb-4 text-left">
               <span>⚠</span>
               <span>{startError}</span>
             </div>
           )}
-          <div className="meta-row">
-            <div className="meta-item">
-              <div className="mv">{quiz?.questions?.length ?? '—'}</div>
-              <div className="ml">Questions</div>
+          <div className="flex gap-5.5 justify-center my-5.5 mb-7">
+            <div className="text-center">
+              <div className="font-bold text-xl">{quiz?.questions?.length ?? '—'}</div>
+              <div className="text-[#64748b] text-[12.5px] uppercase tracking-[.06em]">Questions</div>
             </div>
           </div>
-          <button className="btn btn-primary btn-lg" onClick={handleStart} disabled={startAttempt.isPending || quizLoading || quizNotFound}>
+          <button className="font-semibold text-[16px] border border-transparent cursor-pointer px-6.5 py-3.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 transition-all duration-[120ms] bg-[#2563eb] text-white disabled:opacity-55 disabled:cursor-not-allowed hover:bg-[#1d4ed8]" onClick={handleStart} disabled={startAttempt.isPending || quizLoading || quizNotFound}>
             {startAttempt.isPending ? 'Starting…' : 'Start Quiz'}
           </button>
         </div>
@@ -98,14 +98,14 @@ export default function PlayerPage() {
   }
 
   return (
-    <div className="page">
-      <button className="back" onClick={() => navigate('/')}>← Home</button>
-      <div className="player-head">
-        <div className="player-title">{attempt.quiz.title}</div>
-        <span className="progress-txt">{currentIndex + 1} / {questions.length}</span>
+    <div className="max-w-[680px] mx-auto px-6 pt-10 pb-24">
+      <button className="inline-flex items-center gap-1.5 text-[#64748b] text-sm font-medium mb-5 cursor-pointer bg-transparent border-none p-0 hover:text-[#0f172a]" onClick={() => navigate('/')}>← Home</button>
+      <div className="flex items-baseline justify-between gap-4 mb-3.5">
+        <div className="font-bold text-lg tracking-[-0.01em]">{attempt.quiz.title}</div>
+        <span className="text-[#64748b] font-semibold text-sm tabular-nums">{currentIndex + 1} / {questions.length}</span>
       </div>
-      <div className="progress-bar">
-        <span style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}></span>
+      <div className="h-1.5 rounded-full bg-[#e2e8f0] overflow-hidden mb-6.5">
+        <span className="block h-full bg-[#2563eb] rounded-full transition-[width] duration-300" style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}></span>
       </div>
       {currentQuestion && (
         <QuestionCard
@@ -114,11 +114,11 @@ export default function PlayerPage() {
           onChange={(value) => setAnswers((prev) => ({ ...prev, [currentQuestion.id]: value }))}
         />
       )}
-      <div className="nav-row">
-        <button className="btn btn-ghost" onClick={() => setCurrentIndex((i) => i - 1)} disabled={currentIndex === 0}>← Previous</button>
+      <div className="flex items-center justify-between gap-3 mt-6.5">
+        <button className="font-semibold text-sm border border-[#e2e8f0] cursor-pointer px-4.5 py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 min-w-[124px] transition-all duration-[120ms] bg-white text-[#0f172a] disabled:opacity-55 disabled:cursor-not-allowed hover:bg-[#f8fafc] hover:border-[#cbd5e1]" onClick={() => setCurrentIndex((i) => i - 1)} disabled={currentIndex === 0}>← Previous</button>
         {!isLastQuestion
-          ? <button className="btn btn-primary" onClick={handleNext} disabled={saveAnswer.isPending}>{saveAnswer.isPending ? 'Saving…' : 'Next →'}</button>
-          : <button className="btn btn-primary" onClick={handleSubmit} disabled={submitAttempt.isPending || saveAnswer.isPending}>{submitAttempt.isPending ? 'Submitting…' : 'Submit Quiz'}</button>}
+          ? <button className="font-semibold text-sm border border-transparent cursor-pointer px-4.5 py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 min-w-[124px] transition-all duration-[120ms] bg-[#2563eb] text-white disabled:opacity-55 disabled:cursor-not-allowed hover:bg-[#1d4ed8]" onClick={handleNext} disabled={saveAnswer.isPending}>{saveAnswer.isPending ? 'Saving…' : 'Next →'}</button>
+          : <button className="font-semibold text-sm border border-transparent cursor-pointer px-4.5 py-2.5 rounded-lg whitespace-nowrap inline-flex items-center justify-center gap-2 min-w-[124px] transition-all duration-[120ms] bg-[#2563eb] text-white disabled:opacity-55 disabled:cursor-not-allowed hover:bg-[#1d4ed8]" onClick={handleSubmit} disabled={submitAttempt.isPending || saveAnswer.isPending}>{submitAttempt.isPending ? 'Submitting…' : 'Submit Quiz'}</button>}
       </div>
     </div>
   )
